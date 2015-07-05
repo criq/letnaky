@@ -19,8 +19,8 @@
 	<div class="movies">
 		{% for i, movie in movies %}
 
-			{% set color = movie.getPosterImageColors[1].brightness(90, true).saturation(100, true) %}
-			{% set backgroundColor = movie.getPosterImageColors[1].brightness(10, true).saturation(100, true) %}
+			{% set color = movie.getPosterImageColor.brightness(100, true).saturation(100, true) %}
+			{% set backgroundColor = movie.getPosterImageColor.brightness(10, true).saturation(100, true) %}
 
 			<div class="movie" style="border-bottom: 1rem solid #{{ color.toHex }}; color: #{{ color.toHex }}; background-color: #{{ backgroundColor.toHex }}">
 
@@ -50,29 +50,45 @@
 								{{ movie.title }}
 							</h2>
 
-							<ul class="details">
-								<li>
-									{{ movie.getCsfdInfo.year }}
-								</li>
-								<li>
-									{{ movie.getCsfdInfo.runtime }}
-								</li>
-								<li>
-									{{ movie.getRating|localPercent }}
-								</li>
-							</ul>
+							{% set year = movie.getYear %}
+							{% set runtime = movie.getRuntime %}
+							{% set rating = movie.getRating %}
+
+							{% if year or runtime or rating %}
+								<ul class="details">
+									{% if year %}
+										<li>
+											{{ year }}
+										</li>
+									{% endif %}
+									{% if runtime %}
+										<li>
+											{{ runtime }}
+										</li>
+									{% endif %}
+									{% if rating %}
+										<li>
+											{{ rating|localPercent }}
+										</li>
+									{% endif %}
+								</ul>
+							{% endif %}
 
 						</div>
 					</div>
-					<div class="row plot">
-						<div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
 
-							<p>
-								{{ movie.getCsfdInfo.plot }}
-							</p>
+					{% set plot = movie.getPlot %}
+					{% if plot %}
+						<div class="row plot">
+							<div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
 
+								<p>
+									{{ plot }}
+								</p>
+
+							</div>
 						</div>
-					</div>
+					{% endif %}
 				</div>
 
 			</div>

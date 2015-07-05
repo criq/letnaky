@@ -18,20 +18,26 @@ class Movie {
 	}
 
 	public function getCsfdInfo() {
-		// Look for the ID.
-		if (!$this->csfdId) {
-			$res = \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('http://csfdapi.cz/movie', [
-				'search' => $this->title,
-			]));
-			if (isset($res[0])) {
-				$csfdId = $res[0]->id;
-			}
-		} else {
-			$csfdId = $this->csfdId;
-		}
+		try {
 
-		if ($csfdId) {
-			return \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('http://csfdapi.cz/movie/' . $csfdId));
+			// Look for the ID.
+			if (!$this->csfdId) {
+				$res = \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('http://csfdapi.cz/movie', [
+					'search' => $this->title,
+				]));
+				if (isset($res[0])) {
+					$csfdId = $res[0]->id;
+				}
+			} else {
+				$csfdId = $this->csfdId;
+			}
+
+			if ($csfdId) {
+				return \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('http://csfdapi.cz/movie/' . $csfdId));
+			}
+
+		} catch (\Exception $e) {
+			return false;
 		}
 
 		return false;
@@ -55,12 +61,49 @@ class Movie {
 		return false;
 	}
 
-	public function getPosterImageColors() {
-		return \Katu\Utils\Cache::get(function($posterUrl) {
+	public function getYear() {
+		$csfdInfo = $this->getCsfdInfo();
+		if (isset($csfdInfo->year)) {
+			return $csfdInfo->year;
+		}
 
-			return \Kleur\Kleur::extractColors($posterUrl, 3);
+		return false;
+	}
 
-		}, null, $this->getPosterUrl());
+	public function getRuntime() {
+		$csfdInfo = $this->getCsfdInfo();
+		if (isset($csfdInfo->runtime)) {
+			return $csfdInfo->runtime;
+		}
+
+		return false;
+	}
+
+	public function getPlot() {
+		$csfdInfo = $this->getCsfdInfo();
+		if (isset($csfdInfo->plot)) {
+			return $csfdInfo->plot;
+		}
+
+		return false;
+	}
+
+	public function getPosterImageColor() {
+		try {
+
+			return \Katu\Utils\Cache::get(function($posterUrl) {
+
+				$image = new \Intervention\Image\Image($posterUrl);
+				$image->resize(1, 1);
+				$color = $image->pickColor(0, 0);
+
+				return new \MischiefCollective\ColorJizz\Formats\RGB($color['r'], $color['g'], $color['b']);
+
+			}, null, $this->getPosterUrl());
+
+		} catch (\Exception $e) {
+			return new \MischiefCollective\ColorJizz\Formats\RGB(rand(0, 255), rand(0, 255), rand(0, 255));
+		}
 	}
 
 }
