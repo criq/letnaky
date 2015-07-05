@@ -75,8 +75,12 @@ a:hover {
   font-size: 2em;
   margin: 2rem 0;
 }
+.movies .movie td.rating {
+  text-align: right;
+  width: 5%;
+}
 .movies .movie td.venue {
-  width: 15%;
+  width: 20%;
 }
 .movies .movie td.entry {
   text-align: right;
@@ -87,10 +91,6 @@ a:hover {
   width: 5%;
 }
 .movies .movie td.runtime {
-  text-align: right;
-  width: 10%;
-}
-.movies .movie td.rating {
   text-align: right;
   width: 5%;
   padding-right: 0;

@@ -59,6 +59,15 @@
 									{% endif %}
 								</h2>
 							</td>
+							<td class="rating hidden-xs">
+								{% if rating %}
+									{% if csfdUrl %}
+										<a target="_blank" href="{{ csfdUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ rating|localPercent }}</a>
+									{% else %}
+										{{ rating|localPercent }}
+									{% endif %}
+								{% endif %}
+							</td>
 							<td class="venue">
 								<a target="_blank" href="{{ movie.venueUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ movie.venue }}</a>
 							</td>
@@ -70,15 +79,6 @@
 							</td>
 							<td class="runtime hidden-sm hidden-xs">
 								{{ movie.getRuntime }}
-							</td>
-							<td class="rating hidden-xs">
-								{% if rating %}
-									{% if csfdUrl %}
-										<a target="_blank" href="{{ csfdUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ rating|localPercent }}</a>
-									{% else %}
-										{{ rating|localPercent }}
-									{% endif %}
-								{% endif %}
 							</td>
 
 						</tr>
