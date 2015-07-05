@@ -26,6 +26,7 @@
 						<tr class="movie">
 
 							{% set csfdUrl = movie.getCsfdUrl %}
+							{% set rating = movie.getRating %}
 
 							<td class="datetime">
 								<p>
@@ -59,10 +60,12 @@
 								{{ movie.getRuntime }}
 							</td>
 							<td class="rating">
-								{% if csfdUrl %}
-									<a target="_blank" href="{{ csfdUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ rating|localPercent }}</a>
-								{% else %}
-									{{ rating|localPercent }}
+								{% if rating %}
+									{% if csfdUrl %}
+										<a target="_blank" href="{{ csfdUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ rating|localPercent }}</a>
+									{% else %}
+										{{ rating|localPercent }}
+									{% endif %}
 								{% endif %}
 							</td>
 
