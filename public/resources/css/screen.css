@@ -3,6 +3,9 @@ body {
   font-family: "freight-display-pro";
   background-color: black;
 }
+body.dark #header {
+  border-bottom: 1rem solid #CCC;
+}
 #header {
   background-color: black;
   color: white;

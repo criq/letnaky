@@ -19,10 +19,15 @@
 	<div class="movies">
 		{% for i, movie in movies %}
 
-			{% set color = movie.getPosterImageColor.brightness(70, true).saturation(100, true) %}
-			{% set backgroundColor = movie.getPosterImageColor.brightness(10, true).saturation(100, true) %}
+			{% if theme == 'dark' %}
+				{% set color = movie.getPosterImageColor.brightness(100, true).saturation(100, true).toHex %}
+				{% set backgroundColor = movie.getPosterImageColor.brightness(10, true).saturation(100, true).toHex %}
+			{% else %}
+				{% set color = movie.getPosterImageColor.brightness(70, true).saturation(100, true).toHex %}
+				{% set backgroundColor = 'FFF' %}
+			{% endif %}
 
-			<div class="movie" style="border-bottom: 1rem solid #{{ color.toHex }}; color: #{{ color.toHex }}; background-color: #FFF;">
+			<div class="movie" style="border-bottom: 1rem solid #{{ color }}; color: #{{ color }}; background-color: #{{ backgroundColor }}">
 
 				<div class="container">
 					<div class="row header">
@@ -30,7 +35,7 @@
 
 							<ul class="details">
 								<li>
-									<a target="_blank" href="{{ movie.venueUrl }}" style="color: #{{ color.toHex }}; border-bottom: 1px dotted #{{ color.toHex }};">{{ movie.venue }}</a>
+									<a target="_blank" href="{{ movie.venueUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ movie.venue }}</a>
 								</li>
 								<li class="date">
 									{% if movie.dateTime.isToday %}
@@ -70,7 +75,7 @@
 										<li>
 											{% set csfdUrl = movie.getCsfdUrl %}
 											{% if csfdUrl %}
-												<a target="_blank" href="{{ csfdUrl }}" style="color: #{{ color.toHex }}; border-bottom: 1px dotted #{{ color.toHex }};">{{ rating|localPercent }}</a>
+												<a target="_blank" href="{{ csfdUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ rating|localPercent }}</a>
 											{% else %}
 												{{ rating|localPercent }}
 											{% endif %}

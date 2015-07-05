@@ -30,6 +30,9 @@ class Homepage extends \Katu\Controller {
 				;
 		});
 
+		$dateTime = new \Katu\Utils\DateTime;
+		static::$data['theme'] = ($dateTime->format('H') > 6 && $dateTime->format('H') < 20) ? 'light' : 'dark';
+
 		static::$data['_page']['title'] = 'Letňáky v Brně';
 
 		return static::render("Homepage/index");
