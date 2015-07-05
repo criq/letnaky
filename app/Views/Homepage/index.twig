@@ -59,6 +59,11 @@
 										{{ movie.title }}
 									{% endif %}
 								</h2>
+								{% if isBanner %}
+									<p class="plot">
+										{{ movie.getPlot }}
+									</p>
+								{% endif %}
 							</td>
 							<td class="rating hidden-xs">
 								{% if rating %}

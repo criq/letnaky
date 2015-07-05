@@ -64,6 +64,9 @@ a:hover {
   color: white !important;
   border-bottom: 1px dotted white !important;
 }
+.movies .movie.banner .title h2 {
+  font-size: 3em;
+}
 .movies .movie.banner .title a {
   border: none !important;
 }
@@ -71,7 +74,7 @@ a:hover {
   vertical-align: middle;
   border-top: 1px solid #DDD;
   border-bottom: 1px solid #DDD;
-  padding: 0 1em;
+  padding: 1.5em .75em;
 }
 .movies .movie td.time {
   width: 5%;
@@ -94,7 +97,7 @@ a:hover {
   font-family: "freight-display-pro";
   font-weight: 900;
   font-size: 2em;
-  margin: 2rem 0;
+  margin: 0;
 }
 .movies .movie td.rating {
   text-align: right;
