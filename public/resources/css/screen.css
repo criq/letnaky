@@ -89,6 +89,7 @@ a:hover {
 .movies .movie td.rating {
   text-align: right;
   width: 5%;
+  white-space: nowrap;
 }
 .movies .movie td.venue {
   width: 20%;
@@ -103,15 +104,18 @@ a:hover {
 .movies .movie td.entry {
   text-align: right;
   width: 5%;
+  white-space: nowrap;
 }
 .movies .movie td.year {
   text-align: right;
   width: 5%;
+  white-space: nowrap;
 }
 .movies .movie td.runtime {
   text-align: right;
   width: 5%;
   padding-right: 0;
+  white-space: nowrap;
 }
 .movies p {
   margin: 0;
