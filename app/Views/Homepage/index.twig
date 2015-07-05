@@ -8,11 +8,11 @@
 			{% set csfdInfo = movie.getCsfdInfo %}
 
 			{% if i is divisible by(2) %}
-				{% set color = movie.getPosterImageColors[1].brightness(80, true).saturation(20, true) %}
+				{% set color = movie.getPosterImageColors[1].brightness(10, true).saturation(10, true) %}
 				{% set backgroundColor = movie.getPosterImageColors[0].brightness(20, true).saturation(80, true) %}
 			{% else %}
-				{% set color = movie.getPosterImageColors[1].brightness(20, true).saturation(80, true) %}
-				{% set backgroundColor = movie.getPosterImageColors[0].brightness(80, true).saturation(20, true) %}
+				{% set color = movie.getPosterImageColors[1].brightness(90, true).saturation(10, true) %}
+				{% set backgroundColor = movie.getPosterImageColors[0].brightness(80, true).saturation(80, true) %}
 			{% endif %}
 
 			<div class="movie" style="color: #{{ color.toHex }}; background-color: #{{ backgroundColor.toHex }};">
