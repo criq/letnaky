@@ -69,7 +69,7 @@
 								{% endif %}
 							</td>
 							<td class="venue">
-								<a target="_blank" href="{{ movie.venueUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ movie.venue }}</a>
+								<a target="_blank" href="{{ movie.venueUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};"><span class="hidden-xs">{{ movie.venue }}</span><span class="hidden-lg hidden-md hidden-sm">{{ _config.venues[movie.venue].short }}</span></a>
 							</td>
 							<td class="entry hidden-xs">
 								{{ movie.entry }}&nbsp;Kč
