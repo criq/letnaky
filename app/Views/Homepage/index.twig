@@ -68,7 +68,12 @@
 									{% endif %}
 									{% if rating %}
 										<li>
-											{{ rating|localPercent }}
+											{% set csfdUrl = movie.getCsfdUrl %}
+											{% if csfdUrl %}
+												<a target="_blank" href="{{ csfdUrl }}" style="color: #{{ color.toHex }}; border-bottom: 1px dotted #{{ color.toHex }};">{{ rating|localPercent }}</a>
+											{% else %}
+												{{ rating|localPercent }}
+											{% endif %}
 										</li>
 									{% endif %}
 								</ul>

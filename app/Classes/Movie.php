@@ -88,6 +88,15 @@ class Movie {
 		return false;
 	}
 
+	public function getCsfdUrl() {
+		$csfdInfo = $this->getCsfdInfo();
+		if (isset($csfdInfo->csfd_url)) {
+			return $csfdInfo->csfd_url;
+		}
+
+		return false;
+	}
+
 	public function getPosterImageColor() {
 		try {
 
