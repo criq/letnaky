@@ -23,7 +23,11 @@ class Homepage extends \Katu\Controller {
 		}, 3600);
 
 		static::$data['movies'] = array_filter($movies, function($i) {
-			return $i->dateTime->getTimestamp() <= (new \Katu\Utils\DateTime('+1 week'))->getTimestamp();
+			return
+				$i->dateTime->getTimestamp() <= (new \Katu\Utils\DateTime('+1 week'))->getTimestamp()
+				&&
+				$i->dateTime->isInFuture()
+				;
 		});
 
 		static::$data['_page']['title'] = 'Letňáky v Brně';
