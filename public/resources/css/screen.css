@@ -56,6 +56,17 @@ a:hover {
 .movies .movie:first-child td {
   border-top: none;
 }
+.movies .movie.banner td {
+  border-top: none;
+  border-bottom: none;
+}
+.movies .movie.banner a {
+  color: white !important;
+  border-bottom: 1px dotted white !important;
+}
+.movies .movie.banner .title a {
+  border: none !important;
+}
 .movies .movie td {
   vertical-align: middle;
   border-top: 1px solid #DDD;
@@ -64,7 +75,6 @@ a:hover {
 }
 .movies .movie td.time {
   width: 5%;
-  padding-left: 0;
 }
 @media (max-width: 767px) {
   .movies .movie td.time {
@@ -114,7 +124,6 @@ a:hover {
 .movies .movie td.runtime {
   text-align: right;
   width: 5%;
-  padding-right: 0;
   white-space: nowrap;
 }
 .movies p {

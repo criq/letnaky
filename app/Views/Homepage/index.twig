@@ -40,7 +40,8 @@
 						{% endif %}
 						{% set date = movie.dateTime.getDbDateFormat %}
 						{% set color = movie.getPosterImageColor.brightness(70, true).saturation(100, true).toHex %}
-						<tr class="movie">
+						{% set isBanner = movie.dateTime.isToday or movie.dateTime.isTomorrow %}
+						<tr class="movie {% if isBanner %}banner{% endif %}"{% if isBanner %} style="background: #{{ color }}; color: white;"{% endif %}>
 
 							{% set csfdUrl = movie.getCsfdUrl %}
 							{% set rating = movie.getRating %}

@@ -92,6 +92,28 @@ a {
 
 		}
 
+		&.banner {
+
+			td {
+				border-top: none;
+				border-bottom: none;
+			}
+
+			a {
+				color: white !important;
+				border-bottom: 1px dotted white !important;
+			}
+
+			.title {
+
+				a {
+					border: none !important;
+				}
+
+			}
+
+		}
+
 		td {
 			vertical-align: middle;
 			border-top: 1px solid #DDD;
@@ -100,7 +122,6 @@ a {
 
 			&.time {
 				width: 5%;
-				padding-left: 0;
 
 				@media (max-width: @screen-xs-max) {
 					width: 1px;
@@ -157,7 +178,6 @@ a {
 			&.runtime {
 				text-align: right;
 				width: 5%;
-				padding-right: 0;
 				white-space: nowrap;
 			}
 
