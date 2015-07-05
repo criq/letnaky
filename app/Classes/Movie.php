@@ -72,8 +72,8 @@ class Movie {
 
 	public function getRuntime() {
 		$csfdInfo = $this->getCsfdInfo();
-		if (isset($csfdInfo->runtime)) {
-			return $csfdInfo->runtime;
+		if (isset($csfdInfo->runtime) && preg_match('#^[0-9]+ min$#', $csfdInfo->runtime, $match)) {
+			return $match[0];
 		}
 
 		return false;

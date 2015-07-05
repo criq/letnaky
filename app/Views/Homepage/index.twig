@@ -16,94 +16,62 @@
 		</div>
 	</header>
 
-	<div class="movies">
-		{% for i, movie in movies %}
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
 
-			{% if theme == 'dark' %}
-				{% set color = movie.getPosterImageColor.brightness(100, true).saturation(100, true).toHex %}
-				{% set backgroundColor = movie.getPosterImageColor.brightness(10, true).saturation(100, true).toHex %}
-			{% else %}
-				{% set color = movie.getPosterImageColor.brightness(70, true).saturation(100, true).toHex %}
-				{% set backgroundColor = 'FFF' %}
-			{% endif %}
+				<table class="movies">
+					{% for movie in movies %}
+						{% set color = movie.getPosterImageColor.brightness(70, true).saturation(100, true).toHex %}
+						<tr class="movie">
 
-			<div class="movie" style="border-bottom: 1rem solid #{{ color }}; color: #{{ color }}; background-color: #{{ backgroundColor }}">
+							{% set csfdUrl = movie.getCsfdUrl %}
 
-				<div class="container">
-					<div class="row header">
-						<div class="col-xs-12">
-
-							<ul class="details">
-								<li>
-									<a target="_blank" href="{{ movie.venueUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ movie.venue }}</a>
-								</li>
-								<li class="date">
-									{% if movie.dateTime.isToday %}
-										dnes {{ movie.dateTime|localTime }}
-									{% elseif movie.dateTime.isTomorrow %}
-										zítra {{ movie.dateTime|localTime }}
-									{% else %}
-										{{ movie.dateTime|localDateTime }}
-									{% endif %}
-								</li>
-								<li>
-									{{ movie.entry }}&nbsp;Kč
-								</li>
-							</ul>
-
-							<h2 class="title">
-								{{ movie.title }}
-							</h2>
-
-							{% set year = movie.getYear %}
-							{% set runtime = movie.getRuntime %}
-							{% set rating = movie.getRating %}
-
-							{% if year or runtime or rating %}
-								<ul class="details">
-									{% if year %}
-										<li>
-											{{ year }}
-										</li>
-									{% endif %}
-									{% if runtime %}
-										<li>
-											{{ runtime }}
-										</li>
-									{% endif %}
-									{% if rating %}
-										<li>
-											{% set csfdUrl = movie.getCsfdUrl %}
-											{% if csfdUrl %}
-												<a target="_blank" href="{{ csfdUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ rating|localPercent }}</a>
-											{% else %}
-												{{ rating|localPercent }}
-											{% endif %}
-										</li>
-									{% endif %}
-								</ul>
-							{% endif %}
-
-						</div>
-					</div>
-
-					{% set plot = movie.getPlot %}
-					{% if plot %}
-						<div class="row plot">
-							<div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
-
+							<td class="datetime">
 								<p>
-									{{ plot }}
+									{% if movie.dateTime.isToday %}
+										<strong>dnes</strong>
+									{% elseif movie.dateTime.isTomorrow %}
+										<strong>zítra</strong>
+									{% else %}
+										{{ movie.dateTime.format('j. n.') }}
+									{% endif %}
 								</p>
+								<p>
+									{{ movie.dateTime|localTime }}
+								</p>
+							</td>
+							<td class="title">
+								<h2 style="color: #{{ color }};">
+									{{ movie.title }}
+								</h2>
+							</td>
+							<td class="venue">
+								<a target="_blank" href="{{ movie.venueUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ movie.venue }}</a>
+							</td>
+							<td class="entry">
+								{{ movie.entry }}&nbsp;Kč
+							</td>
+							<td class="year">
+								{{ movie.getYear }}
+							</td>
+							<td class="runtime">
+								{{ movie.getRuntime }}
+							</td>
+							<td class="rating">
+								{% if csfdUrl %}
+									<a target="_blank" href="{{ csfdUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ rating|localPercent }}</a>
+								{% else %}
+									{{ rating|localPercent }}
+								{% endif %}
+							</td>
 
-							</div>
-						</div>
-					{% endif %}
-				</div>
+						</tr>
+					{% endfor %}
+				</table>
 
 			</div>
-
-		{% endfor %}
+		</div>
 	</div>
 
 {% endblock content %}

@@ -1,12 +1,16 @@
-body {
-  color: white;
-  font-family: "freight-display-pro";
-  background-color: black;
+.sans {
+  font-family: "source-sans-pro";
 }
-body.dark #header {
-  border-bottom: 1rem solid #CCC;
+.serif {
+  font-family: "freight-display-pro";
+}
+body {
+  font-family: "source-sans-pro";
+  color: black;
+  background-color: white;
 }
 #header {
+  font-family: "freight-display-pro";
   background-color: black;
   color: white;
   text-align: center;
@@ -20,64 +24,53 @@ body.dark #header {
 #header p {
   margin: 0;
 }
+.movies {
+  width: 100%;
+}
 .movies a {
   text-decoration: none;
 }
-.movies .movie .container {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+.movies .movie:first-child td {
+  border-top: none;
 }
-.movies .movie .header {
-  text-align: center;
+.movies .movie td {
+  vertical-align: middle;
+  border-top: 1px solid #DDD;
+  border-bottom: 1px solid #DDD;
+  padding: 0 1em;
 }
-@media (max-width: 480px) {
-  .movies .movie .header {
-    text-align: left;
-  }
+.movies .movie td.datetime {
+  width: 10%;
+  padding-left: 0;
 }
-.movies .movie .header .title {
+.movies .movie td.title {
+  width: 40%;
+}
+.movies .movie td.title h2 {
+  font-family: "freight-display-pro";
   font-weight: 900;
-  font-size: 8em;
-  margin: 0 0 2rem 0;
+  font-size: 2em;
+  margin: 2rem 0;
 }
-@media (max-width: 768px) {
-  .movies .movie .header .title {
-    font-size: 6em;
-    margin: 0 0 1.5rem 0;
-  }
+.movies .movie td.venue {
+  width: 15%;
 }
-@media (max-width: 480px) {
-  .movies .movie .header .title {
-    font-size: 4em;
-    margin: 0 0 1rem 0;
-  }
+.movies .movie td.entry {
+  text-align: right;
+  width: 5%;
 }
-.movies .movie .header .details {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  font-size: 1.5em;
+.movies .movie td.year {
+  text-align: right;
+  width: 5%;
 }
-@media (max-width: 480px) {
-  .movies .movie .header .details {
-    margin: 0 0 1rem 0;
-  }
+.movies .movie td.runtime {
+  text-align: right;
+  width: 10%;
 }
-.movies .movie .header .details li {
-  display: inline;
-  margin: 0 1em;
-}
-@media (max-width: 480px) {
-  .movies .movie .header .details li {
-    margin: 0 1em 0 0;
-  }
-}
-.movies .movie .header .details li.date {
-  font-weight: 700;
-}
-.movies .movie .plot {
-  margin-top: 2rem;
-  font-size: 1.2em;
+.movies .movie td.rating {
+  text-align: right;
+  width: 5%;
+  padding-right: 0;
 }
 .movies p {
   margin: 0;

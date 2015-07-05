@@ -5,7 +5,7 @@ namespace App\Controllers;
 class Homepage extends \Katu\Controller {
 
 	static function index() {
-		$movies = \Katu\Utils\Cache::get(function() {
+		static::$data['movies'] = \Katu\Utils\Cache::get(function() {
 
 			$res = \Katu\Utils\Cache::getUrl('https://docs.google.com/spreadsheets/d/1_H6y1uS-yGkZGfdMtS2kFkCw5Fgml35PDJcK0ZcWr_0/pubhtml', 3600);
 			$dom = \Katu\Utils\DOM::crawlHtml($res);
@@ -21,14 +21,6 @@ class Homepage extends \Katu\Controller {
 			return $movies;
 
 		}, 3600);
-
-		static::$data['movies'] = array_filter($movies, function($i) {
-			return
-				$i->dateTime->getTimestamp() <= (new \Katu\Utils\DateTime('+1 week'))->getTimestamp()
-				&&
-				$i->dateTime->isInFuture()
-				;
-		});
 
 		$dateTime = new \Katu\Utils\DateTime;
 		static::$data['theme'] = ($dateTime->format('H') > 6 && $dateTime->format('H') < 20) ? 'light' : 'dark';
