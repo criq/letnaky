@@ -16,28 +16,36 @@
 		</div>
 	</header>
 
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xs-12">
 
 				<table class="movies">
 					{% for movie in movies %}
+						{% if date != movie.dateTime.getDbDateFormat %}
+							<tr>
+								<th class="date" colspan="7">
+									<p>
+										{% if movie.dateTime.isToday %}
+											<strong>dnes</strong>
+										{% elseif movie.dateTime.isTomorrow %}
+											<strong>zítra</strong>
+										{% else %}
+											{{ _config.weekdays[movie.dateTime.format('N')] }}
+											{{ movie.dateTime.format('j. n.') }}
+										{% endif %}
+									</p>
+								</th>
+							</tr>
+						{% endif %}
+						{% set date = movie.dateTime.getDbDateFormat %}
 						{% set color = movie.getPosterImageColor.brightness(70, true).saturation(100, true).toHex %}
 						<tr class="movie">
 
 							{% set csfdUrl = movie.getCsfdUrl %}
 							{% set rating = movie.getRating %}
 
-							<td class="datetime">
-								<p>
-									{% if movie.dateTime.isToday %}
-										<strong>dnes</strong>
-									{% elseif movie.dateTime.isTomorrow %}
-										<strong>zítra</strong>
-									{% else %}
-										{{ movie.dateTime.format('j. n.') }}
-									{% endif %}
-								</p>
+							<td class="time">
 								<p>
 									{{ movie.dateTime|localTime }}
 								</p>

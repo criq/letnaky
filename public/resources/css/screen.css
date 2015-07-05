@@ -46,6 +46,14 @@ a:hover {
 .movies a {
   text-decoration: none;
 }
+.movies .date {
+  font-family: "freight-display-pro";
+  padding: 1em;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
 .movies .movie:first-child td {
   border-top: none;
 }
@@ -55,7 +63,7 @@ a:hover {
   border-bottom: 1px solid #DDD;
   padding: 0 1em;
 }
-.movies .movie td.datetime {
+.movies .movie td.time {
   width: 10%;
   padding-left: 0;
 }
