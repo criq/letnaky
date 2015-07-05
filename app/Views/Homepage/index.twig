@@ -22,7 +22,7 @@
 			{% set color = movie.getPosterImageColors[1].brightness(90, true).saturation(100, true) %}
 			{% set backgroundColor = movie.getPosterImageColors[1].brightness(10, true).saturation(100, true) %}
 
-			<div class="movie" style="border-bottom: 1em solid #{{ color.toHex }}; color: #{{ color.toHex }}; background-color: #{{ backgroundColor.toHex }}">
+			<div class="movie" style="border-bottom: 1rem solid #{{ color.toHex }}; color: #{{ color.toHex }}; background-color: #{{ backgroundColor.toHex }}">
 
 				<div class="container">
 					<div class="row header">
