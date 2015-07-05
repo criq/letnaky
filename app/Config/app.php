@@ -35,8 +35,8 @@ switch (\Katu\Env::getPlatform()) {
 
 		return [
 
-			'baseUrl'  => 'http://www.example.com/',
-			'apiUrl'   => 'http://www.example.com/',
+			'baseUrl'  => 'http://letnaky.jabli.cz/',
+			'apiUrl'   => 'http://letnaky.jabli.cz/',
 			'timezone' => 'Europe/Prague',
 
 			'slim' => [
