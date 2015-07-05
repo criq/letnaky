@@ -26,6 +26,7 @@ body {
 }
 .movies {
   width: 100%;
+  margin: 0 0 2rem 0;
 }
 .movies a {
   text-decoration: none;
