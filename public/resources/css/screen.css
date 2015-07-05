@@ -66,6 +66,7 @@ a:hover {
 }
 .movies .movie.banner .title h2 {
   font-size: 3em;
+  margin: 0 0 1rem 0;
 }
 .movies .movie.banner .title a {
   border: none !important;
