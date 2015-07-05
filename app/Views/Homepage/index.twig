@@ -44,7 +44,11 @@
 							</td>
 							<td class="title">
 								<h2 style="color: #{{ color }};">
-									{{ movie.title }}
+									{% if csfdUrl %}
+										<a target="_blank" href="{{ csfdUrl }}" style="color: #{{ color }}; border: none;">{{ movie.title }}</a>
+									{% else %}
+										{{ movie.title }}
+									{% endif %}
 								</h2>
 							</td>
 							<td class="venue">
