@@ -32,4 +32,12 @@ class Movie {
 		return false;
 	}
 
+	public function getBackgroundImageColor() {
+		return \Katu\Utils\Cache::get(function($posterUrl) {
+
+			return \ColorThief\ColorThief::getColor($posterUrl);
+
+		}, null, $this->getCsfdInfo()->poster_url);
+	}
+
 }

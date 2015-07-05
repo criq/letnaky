@@ -1,0 +1,26 @@
+body {
+  color: black;
+  font-family: "futura-pt";
+}
+.movies {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+.movies li {
+  margin: 0;
+  padding: 2em;
+}
+.movies li.dark {
+  color: white;
+}
+.movies li.light {
+  color: black;
+}
+.movies .title {
+  font-weight: 900;
+  font-size: 4em;
+}
+.movies p {
+  margin: 0;
+}

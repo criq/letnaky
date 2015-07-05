@@ -2,45 +2,37 @@
 
 {% block content %}
 
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-12">
+	<ul class="movies">
+		{% for movie in movies %}
 
-				<h1>
-					Homepage
-				</h1>
+			<li style="background-color: rgb({{ movie.getBackgroundImageColor|join(', ') }});" class="{% if movie.getBackgroundImageColor|average < 192 %}dark{% else %}light{% endif %}">
 
-				{% for movie in today %}
+				{% set csfdInfo = movie.getCsfdInfo %}
 
-					{% set csfdInfo = movie.getCsfdInfo %}
-
-					{% if csfdInfo %}
-						<p>
-							<img src="{{ csfdInfo.poster_url }}" />
-						</p>
-					{% endif %}
-
-					<h2>
-						{{ movie.title }}
-					</h2>
+				{% if csfdInfo %}
 					<p>
-						{{ csfdInfo.rating }}&nbsp;%
+						<img src="{{ csfdInfo.poster_url }}" />
 					</p>
-					<p>
-						<a target="_blank" href="{{ movie.venueUrl }}">{{ movie.venue }}</a>
-					</p>
-					<p>
-						{{ movie.dateTime|date('j.n.Y') }}
-						{{ movie.dateTime|date('H:i') }}
-					</p>
-					<p>
-						{{ movie.entry }}
-					</p>
+				{% endif %}
 
-				{% endfor %}
+				<h2 class="title">
+					{{ movie.title }}
+				</h2>
+				<p>
+					{{ csfdInfo.rating|localPercent }}
+				</p>
+				<p>
+					<a target="_blank" href="{{ movie.venueUrl }}">{{ movie.venue }}</a>
+				</p>
+				<p>
+					{{ movie.dateTime|localDateTime }}
+				</p>
+				<p>
+					{{ movie.entry }}
+				</p>
+			</li>
 
-			</div>
-		</div>
-	</div>
+		{% endfor %}
+	</ul>
 
 {% endblock content %}
