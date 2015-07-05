@@ -101,10 +101,20 @@ a {
 			&.time {
 				width: 5%;
 				padding-left: 0;
+
+				@media (max-width: @screen-xs-max) {
+					width: 1px;
+					white-space: nowrap;
+				}
+
 			}
 
 			&.title {
 				width: 40%;
+
+				@media (max-width: @screen-xs-max) {
+					width: auto;
+				}
 
 				h2 {
 					.serif;
@@ -122,6 +132,13 @@ a {
 
 			&.venue {
 				width: 20%;
+
+				@media (max-width: @screen-xs-max) {
+					width: 1px;
+					text-align: right;
+					white-space: nowrap;
+				}
+
 			}
 
 			&.entry {

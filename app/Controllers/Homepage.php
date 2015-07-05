@@ -22,6 +22,10 @@ class Homepage extends \Katu\Controller {
 
 		}, 3600);
 
+		static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
+			return $i->dateTime->isInFuture();
+		});
+
 		$dateTime = new \Katu\Utils\DateTime;
 		static::$data['theme'] = ($dateTime->format('H') > 6 && $dateTime->format('H') < 20) ? 'light' : 'dark';
 

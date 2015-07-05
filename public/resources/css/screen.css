@@ -66,8 +66,19 @@ a:hover {
   width: 5%;
   padding-left: 0;
 }
+@media (max-width: 767px) {
+  .movies .movie td.time {
+    width: 1px;
+    white-space: nowrap;
+  }
+}
 .movies .movie td.title {
   width: 40%;
+}
+@media (max-width: 767px) {
+  .movies .movie td.title {
+    width: auto;
+  }
 }
 .movies .movie td.title h2 {
   font-family: "freight-display-pro";
@@ -81,6 +92,13 @@ a:hover {
 }
 .movies .movie td.venue {
   width: 20%;
+}
+@media (max-width: 767px) {
+  .movies .movie td.venue {
+    width: 1px;
+    text-align: right;
+    white-space: nowrap;
+  }
 }
 .movies .movie td.entry {
   text-align: right;
