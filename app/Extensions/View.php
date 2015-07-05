@@ -7,6 +7,8 @@ use \Katu\Utils\Formatter;
 class View extends \Katu\View {
 
 	static function extendTwig($twig) {
+		\Kleur\Kleur::extendTwig($twig);
+
 		$twig->addFilter(new \Twig_SimpleFilter('localPercent', function($number) {
 			return Formatter::getLocalPercent(null, $number);
 		}));
