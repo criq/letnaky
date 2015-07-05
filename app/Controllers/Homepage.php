@@ -22,7 +22,9 @@ class Homepage extends \Katu\Controller {
 
 		}, 3600);
 
-		static::$data['movies'] = array_slice($movies, 0, 10);
+		static::$data['movies'] = array_filter($movies, function($i) {
+			return $i->dateTime->isToday() || $i->dateTime->isTomorrow();
+		});
 
 		return static::render("Homepage/index");
 	}

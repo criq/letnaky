@@ -30,6 +30,23 @@ class View extends \Katu\View {
 			return $intlDateFormatter->format($date);
 		}));
 
+		$twig->addFilter(new \Twig_SimpleFilter('localTime', function($date) {
+			$locale = \Locale::acceptFromHttp(\Katu\App::get()->request->headers->get('Accept-Language'));
+
+			$intlDateFormatter = new \IntlDateFormatter($locale, \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT);
+			try {
+				$intlDateFormatter->setTimeZoneId(\Katu\Config::get('app', 'timezone'));
+			} catch (\Exception $e) {
+				$intlDateFormatter->setTimeZone(\Katu\Config::get('app', 'timezone'));
+			}
+
+			if (is_string($date)) {
+				$date = new \DateTime($date);
+			}
+
+			return $intlDateFormatter->format($date);
+		}));
+
 		$twig->addFilter(new \Twig_SimpleFilter('localDateTime', function($date) {
 			$locale = \Locale::acceptFromHttp(\Katu\App::get()->request->headers->get('Accept-Language'));
 
@@ -45,6 +62,10 @@ class View extends \Katu\View {
 			}
 
 			return $intlDateFormatter->format($date);
+		}));
+
+		$twig->addFilter(new \Twig_SimpleFilter('localCurrency', function($number, $currency) {
+			return Formatter::getLocalCurrency(null, $number, $currency);
 		}));
 
 		$twig->addFilter(new \Twig_SimpleFilter('average', function($array) {

@@ -2,48 +2,73 @@
 
 {% block content %}
 
+	<header id="header">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+
+					<h1>
+						Letňáky v&nbsp;Brně
+					</p>
+
+				</div>
+			</div>
+		</div>
+	</header>
+
 	<div class="movies">
 		{% for i, movie in movies %}
 
-			{% set csfdInfo = movie.getCsfdInfo %}
+			{% set color = movie.getPosterImageColors[1].brightness(40, true).saturation(50, true) %}
+			{% set backgroundColor = movie.getPosterImageColors[1].brightness(95, true).saturation(5, true) %}
 
-			{% if i is divisible by(2) %}
-				{% set color = movie.getPosterImageColors[1].brightness(10, true).saturation(10, true) %}
-				{% set backgroundColor = movie.getPosterImageColors[0].brightness(20, true).saturation(80, true) %}
-			{% else %}
-				{% set color = movie.getPosterImageColors[1].brightness(90, true).saturation(10, true) %}
-				{% set backgroundColor = movie.getPosterImageColors[0].brightness(80, true).saturation(80, true) %}
-			{% endif %}
-
-			<div class="movie" style="color: #{{ color.toHex }}; background-color: #{{ backgroundColor.toHex }};">
+			<div class="movie" style="border-bottom: 1em solid #{{ color.toHex }}; color: #{{ color.toHex }}; background-color: #{{ backgroundColor.toHex }}">
 
 				<div class="container">
-					<div class="row">
-						<div class="col-lg-offset-2 col-lg-2 col-md-offset-1 col-md-2 col-sm-2 col-xs-2">
+					<div class="row header">
+						<div class="col-xs-12">
 
-							{% if csfdInfo %}
-								<p>
-									<img class="img-responsive" src="{{ csfdInfo.poster_url }}" />
-								</p>
-							{% endif %}
-
-						</div>
-						<div class="col-lg-6 col-md-7 col-sm-10 col-xs-10">
+							<ul class="details">
+								<li>
+									<a target="_blank" href="{{ movie.venueUrl }}" style="color: #{{ color.toHex }}; border-bottom: 1px dotted #{{ color.toHex }};">{{ movie.venue }}</a>
+								</li>
+								<li>
+									{% if movie.dateTime.isToday %}
+										dnes {{ movie.dateTime|localTime }}
+									{% elseif movie.dateTime.isTomorrow %}
+										zítra {{ movie.dateTime|localTime }}
+									{% else %}
+										{{ movie.dateTime|localDateTime }}
+									{% endif %}
+								</li>
+								<li>
+									{{ movie.entry }}&nbsp;Kč
+								</li>
+							</ul>
 
 							<h2 class="title">
 								{{ movie.title }}
 							</h2>
+
+							<ul class="details">
+								<li>
+									{{ movie.getCsfdInfo.year }}
+								</li>
+								<li>
+									{{ movie.getCsfdInfo.runtime }}
+								</li>
+								<li>
+									{{ movie.getRating|localPercent }}
+								</li>
+							</ul>
+
+						</div>
+					</div>
+					<div class="row plot">
+						<div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+
 							<p>
-								{{ movie.getRating|localPercent }}
-							</p>
-							<p>
-								<a target="_blank" href="{{ movie.venueUrl }}">{{ movie.venue }}</a>
-							</p>
-							<p>
-								{{ movie.dateTime|localDateTime }}
-							</p>
-							<p>
-								{{ movie.entry }}
+								{{ movie.getCsfdInfo.plot }}
 							</p>
 
 						</div>

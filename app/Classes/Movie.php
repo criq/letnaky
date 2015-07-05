@@ -39,8 +39,20 @@ class Movie {
 
 	public function getRating() {
 		$csfdInfo = $this->getCsfdInfo();
+		if (isset($csfdInfo->rating)) {
+			return $csfdInfo->rating * .01;
+		}
 
-		return $csfdInfo->rating * .01;
+		return false;
+	}
+
+	public function getPosterUrl() {
+		$csfdInfo = $this->getCsfdInfo();
+		if (isset($csfdInfo->poster_url)) {
+			return $csfdInfo->poster_url;
+		}
+
+		return false;
 	}
 
 	public function getPosterImageColors() {
@@ -48,7 +60,7 @@ class Movie {
 
 			return \Kleur\Kleur::extractColors($posterUrl, 3);
 
-		}, null, $this->getCsfdInfo()->poster_url);
+		}, null, $this->getPosterUrl());
 	}
 
 }
