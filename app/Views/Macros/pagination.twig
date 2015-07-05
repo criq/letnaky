@@ -1,0 +1,12 @@
+{% import "Katu/Macros/pagination.twig" as macro %}
+
+{{
+	macro.getDefault(url, pagination, {
+		prevCopy:      "Previous",
+		nextCopy:      "Next",
+		pageIdent:     pagination.getPageIdent,
+		allPagesLimit: 10,
+		endsOffset:    0,
+		currentOffset: 2
+	})
+}}

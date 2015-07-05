@@ -1,0 +1,19 @@
+{
+	"name": "jabli/noob",
+	"description": "noob starter pack",
+	"type": "library",
+	"repositories": [
+		{
+			"url": "https://github.com/criq/katu.git",
+			"type": "git"
+		}
+	],
+	"require": {
+		"jabli/katu": "dev-master"
+	},
+	"autoload": {
+		"psr-4": {
+			"App\\": "./app/"
+		}
+	}
+}

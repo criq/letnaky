@@ -1,0 +1,11 @@
+.DS_Store
+.git
+
+composer.phar
+composer.lock
+vendor/*
+
+.platform
+tmp/*
+logs/*
+app/Keychains/*

@@ -1,0 +1,46 @@
+{% extends "Templates/default.twig" %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+
+				<h1>
+					Homepage
+				</h1>
+
+				{% for movie in today %}
+
+					{% set csfdInfo = movie.getCsfdInfo %}
+
+					{% if csfdInfo %}
+						<p>
+							<img src="{{ csfdInfo.poster_url }}" />
+						</p>
+					{% endif %}
+
+					<h2>
+						{{ movie.title }}
+					</h2>
+					<p>
+						{{ csfdInfo.rating }}&nbsp;%
+					</p>
+					<p>
+						<a target="_blank" href="{{ movie.venueUrl }}">{{ movie.venue }}</a>
+					</p>
+					<p>
+						{{ movie.dateTime|date('j.n.Y') }}
+						{{ movie.dateTime|date('H:i') }}
+					</p>
+					<p>
+						{{ movie.entry }}
+					</p>
+
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
