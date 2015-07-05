@@ -50,16 +50,16 @@
 							<td class="venue">
 								<a target="_blank" href="{{ movie.venueUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ movie.venue }}</a>
 							</td>
-							<td class="entry">
+							<td class="entry hidden-xs">
 								{{ movie.entry }}&nbsp;Kč
 							</td>
-							<td class="year">
+							<td class="year hidden-sm hidden-xs">
 								{{ movie.getYear }}
 							</td>
-							<td class="runtime">
+							<td class="runtime hidden-sm hidden-xs">
 								{{ movie.getRuntime }}
 							</td>
-							<td class="rating">
+							<td class="rating hidden-xs">
 								{% if rating %}
 									{% if csfdUrl %}
 										<a target="_blank" href="{{ csfdUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ rating|localPercent }}</a>
