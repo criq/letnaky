@@ -7,5 +7,6 @@ vendor/*
 
 .platform
 tmp/*
+public/tmp/*
 logs/*
 app/Keychains/*
