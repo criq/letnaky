@@ -19,10 +19,10 @@
 	<div class="movies">
 		{% for i, movie in movies %}
 
-			{% set color = movie.getPosterImageColor.brightness(100, true).saturation(100, true) %}
+			{% set color = movie.getPosterImageColor.brightness(70, true).saturation(100, true) %}
 			{% set backgroundColor = movie.getPosterImageColor.brightness(10, true).saturation(100, true) %}
 
-			<div class="movie" style="border-bottom: 1rem solid #{{ color.toHex }}; color: #{{ color.toHex }}; background-color: #{{ backgroundColor.toHex }}">
+			<div class="movie" style="border-bottom: 1rem solid #{{ color.toHex }}; color: #{{ color.toHex }}; background-color: #FFF;">
 
 				<div class="container">
 					<div class="row header">
