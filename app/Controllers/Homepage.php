@@ -14,6 +14,10 @@ class Homepage extends \Katu\Controller {
 				return \App\Classes\Movie::createFromTable($e);
 			}), 2);
 
+			$movies = array_filter($movies, function($i) {
+				return $i->venueUrl;
+			});
+
 			array_multisort(array_map(function($i) {
 				return $i->dateTime->getTimestamp();
 			}, $movies), $movies);
