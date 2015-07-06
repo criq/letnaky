@@ -49,6 +49,12 @@ h2 {
   font-size: 5em;
   text-align: center;
   font-weight: 900;
+  margin: 3rem 0;
+}
+@media (max-width: 767px) {
+  h2 {
+    font-size: 3em;
+  }
 }
 #footer {
   font-family: "freight-display-pro";
@@ -62,7 +68,7 @@ h2 {
 .movies a {
   text-decoration: none;
 }
-.movies .date {
+.movies th.date {
   padding: 1em;
   text-align: center;
   text-transform: uppercase;
@@ -96,6 +102,10 @@ h2 {
   border-top: 1px solid #DDD;
   border-bottom: 1px solid #DDD;
   padding: 1.5em .75em;
+}
+.movies .movie td.date {
+  width: 5%;
+  white-space: nowrap;
 }
 .movies .movie td.time {
   width: 5%;

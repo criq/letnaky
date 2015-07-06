@@ -22,24 +22,17 @@
 
 				<table class="movies">
 					{% for key, movie in movies %}
-						{% if date != movie.dateTime.getDbDateFormat %}
+						{% if date != movie.dateTime.getDbDateFormat and not playlist %}
 							<tr>
 								<th class="date" colspan="8">
 									<p>
-										{% if movie.dateTime.isToday %}
-											<strong>dnes</strong>
-										{% elseif movie.dateTime.isTomorrow %}
-											<strong>zítra</strong>
-										{% else %}
-											{{ _config.weekdays[movie.dateTime.format('N')] }}
-											{{ movie.dateTime.format('j. n.') }}
-										{% endif %}
+										{% include "Snippets/date.twig" with { date: movie.dateTime } %}
 									</p>
 								</th>
 							</tr>
 						{% endif %}
 						{% set date = movie.dateTime.getDbDateFormat %}
-						{% set color = movie.getPosterImageColor.brightness(70, true).saturation(70, true).toHex %}
+						{% set color = movie.getPosterImageColor.brightness(60, true).saturation(70, true).toHex %}
 						{% set isTodayOrTomorrow = movie.dateTime.isToday or movie.dateTime.isTomorrow %}
 						{% if isTodayOrTomorrow and not bannerDate %}
 							{% set bannerDate = date %}
@@ -60,7 +53,20 @@
 							{% set csfdUrl = movie.getCsfdUrl %}
 							{% set rating = movie.getRating %}
 
+							{% if playlist %}
+								<td class="date hidden-xs">
+									<p>
+										{% include "Snippets/date.twig" with { date: movie.dateTime } %}
+									</p>
+								</td>
+							{% endif %}
+
 							<td class="time">
+								{% if playlist %}
+									<p class="hidden-lg hidden-md hidden-sm">
+										{% include "Snippets/date.twig" with { date: movie.dateTime } %}
+									</p>
+								{% endif %}
 								<p>
 									{{ movie.dateTime|localTime }}
 								</p>

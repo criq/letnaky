@@ -19,6 +19,8 @@ class Homepage extends \Katu\Controller {
 
 		if ($app->router()->getCurrentRoute()->getName() == 'playlist.new') {
 
+			static::$data['playlist'] = 'new';
+
 			static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
 				return $i->getYear() >= 2014;
 			});
@@ -27,6 +29,8 @@ class Homepage extends \Katu\Controller {
 
 		} elseif ($app->router()->getCurrentRoute()->getName() == 'playlist.old') {
 
+			static::$data['playlist'] = 'old';
+
 			static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
 				return $i->getYear() && $i->getYear() <= 1959;
 			});
@@ -34,6 +38,8 @@ class Homepage extends \Katu\Controller {
 			static::$data['title'] = 'Pro pamětníky';
 
 		} elseif ($app->router()->getCurrentRoute()->getName() == 'playlist.newWave') {
+
+			static::$data['playlist'] = 'newWave';
 
 			static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
 				return
