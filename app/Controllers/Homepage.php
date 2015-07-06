@@ -5,7 +5,7 @@ namespace App\Controllers;
 class Homepage extends \Katu\Controller {
 
 	static function index() {
-		static::$data['movies'] = \Katu\Utils\Cache::get(function() {
+		static::$data['movies'] = \Katu\Utils\Cache::get('movies', function() {
 
 			$res = \Katu\Utils\Cache::getUrl('https://docs.google.com/spreadsheets/d/1_H6y1uS-yGkZGfdMtS2kFkCw5Fgml35PDJcK0ZcWr_0/pubhtml', 3600);
 			$dom = \Katu\Utils\DOM::crawlHtml($res);
