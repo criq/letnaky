@@ -104,6 +104,11 @@ a:hover {
   font-size: 2em;
   margin: 0;
 }
+@media (max-width: 767px) {
+  .movies .movie td.title h2 {
+    font-size: 1.4em;
+  }
+}
 .movies .movie td.rating {
   text-align: right;
   width: 5%;
