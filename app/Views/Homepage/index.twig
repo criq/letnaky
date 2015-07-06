@@ -26,7 +26,10 @@
 							<tr>
 								<th class="date" colspan="8">
 									<p>
-										{% include "Snippets/date.twig" with { date: movie.dateTime } %}
+										{% include "Snippets/date.twig" with {
+											date: movie.dateTime,
+											weather: weather[movie.dateTime.format('Ymd')],
+										} %}
 									</p>
 								</th>
 							</tr>

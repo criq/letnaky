@@ -53,7 +53,20 @@ class Homepage extends \Katu\Controller {
 
 		}
 
-		#var_dump(static::$data['movies']); die;
+		$res = \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('http://api.openweathermap.org/data/2.5/forecast', [
+			'q'     => 'Brno,cz',
+			'mode'  => 'json',
+			'units' => 'metric',
+			'lang'  => 'en',
+		]), 3600);
+
+		static::$data['weather'] = [];
+		foreach ($res->list as $i) {
+			$dateTime = new \Katu\Utils\DateTime('@' . $i->dt);
+			if ($dateTime->format('Hi') == '2100') {
+				static::$data['weather'][$dateTime->format('Ymd')] = \App\Classes\Weather::createFromApi($i);
+			}
+		}
 
 		return static::render("Homepage/index");
 	}

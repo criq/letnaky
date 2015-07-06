@@ -75,6 +75,13 @@ h2 {
   font-weight: 900;
   letter-spacing: .1em;
 }
+.movies th.date .date,
+.movies th.date .weather {
+  display: block;
+}
+.movies th.date .weather {
+  color: #999;
+}
 .movies .movie:first-child td {
   border-top: none;
 }

@@ -1,10 +1,18 @@
-{% if date.isToday %}
-	<strong>dnes</strong>
-{% elseif date.isTomorrow %}
-	<strong>zítra</strong>
-{% else %}
-	<span{% if playlist %} class="hidden-xs"{% endif %}>
-		{{ _config.weekdays[date.format('N')] }}
+<span class="date">
+	{% if date.isToday %}
+		<strong>dnes</strong>
+	{% elseif date.isTomorrow %}
+		<strong>zítra</strong>
+	{% else %}
+		<span{% if playlist %} class="hidden-xs"{% endif %}>
+			{{ _config.weekdays[date.format('N')] }}
+		</span>
+		{{ date.format('j. n.') }}
+	{% endif %}
+</span>
+
+{% if weather and not playlist and (date.isToday or date.isTomorrow) %}
+	<span class="weather">
+		{{ weather.getWeather }} &middot; {{ weather.getTemperature }}&nbsp;°C
 	</span>
-	{{ date.format('j. n.') }}
 {% endif %}
