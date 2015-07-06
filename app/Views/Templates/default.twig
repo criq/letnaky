@@ -59,8 +59,54 @@
 	</head>
 	<body class="{{ theme }}">
 
+		<header id="header">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+
+						<h1>
+							<a href="{{ getUrlFor('homepage') }}">Letňáky v&nbsp;Brně</a>
+						</h1>
+
+					</div>
+				</div>
+			</div>
+		</header>
+
+		{#
+		<nav id="nav">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+
+						<ul>
+							<li><a href="{{ getUrlFor('playlist.new') }}">Novinky</a></li>
+							<li><a href="{{ getUrlFor('playlist.old') }}">Pro pamětníky</a></li>
+							<li><a href="{{ getUrlFor('playlist.newWave') }}">Česká nová vlna</a></li>
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</nav>
+		#}
+
 		{% block content %}
 		{% endblock content %}
+
+		<div id="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-offset-3 col-lg-6">
+
+						<p>
+							Letňáky vám jako obvykle přináší <a href="http://jabli.cz/">Jabloň</a>. Data čerpám z&nbsp;webů kin a <a href="http://csfdapi.cz/">ČSFD</a>.
+						</p>
+
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<script src="{{ _site.baseUrl }}components/bootstrap/dist/js/bootstrap.min.js"></script>
 

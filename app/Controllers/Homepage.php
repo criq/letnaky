@@ -5,6 +5,8 @@ namespace App\Controllers;
 class Homepage extends \Katu\Controller {
 
 	static function index() {
+		$app = \Katu\App::get();
+
 		static::$data['movies'] = \Katu\Utils\Cache::get('movies', function() {
 
 			$res = \Katu\Utils\Cache::getUrl('https://docs.google.com/spreadsheets/d/1_H6y1uS-yGkZGfdMtS2kFkCw5Fgml35PDJcK0ZcWr_0/pubhtml', 3600);
@@ -26,16 +28,43 @@ class Homepage extends \Katu\Controller {
 
 		}, 3600);
 
-		#var_dump(static::$data['movies']); die;
+		static::$data['_page']['title'] = 'Letňáky v Brně';
 
 		static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
 			return $i->dateTime->isInFuture();
 		});
 
-		$dateTime = new \Katu\Utils\DateTime;
-		static::$data['theme'] = ($dateTime->format('H') > 6 && $dateTime->format('H') < 20) ? 'light' : 'dark';
+		if ($app->router()->getCurrentRoute()->getName() == 'playlist.new') {
 
-		static::$data['_page']['title'] = 'Letňáky v Brně';
+			static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
+				return $i->getYear() >= 2014;
+			});
+			static::$data['_page']['title'] = 'Novinky - ' . static::$data['_page']['title'];
+			static::$data['title'] = 'Novinky';
+
+		} elseif ($app->router()->getCurrentRoute()->getName() == 'playlist.old') {
+
+			static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
+				return $i->getYear() && $i->getYear() <= 1959;
+			});
+			static::$data['_page']['title'] = 'Pro pamětníky - ' . static::$data['_page']['title'];
+			static::$data['title'] = 'Pro pamětníky';
+
+		} elseif ($app->router()->getCurrentRoute()->getName() == 'playlist.newWave') {
+
+			static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
+				return
+				$i->getYear() && $i->getYear() >= 1960
+				&&
+				$i->getYear() && $i->getYear() <= 1970
+				;
+			});
+			static::$data['_page']['title'] = 'Česká nová vlna - ' . static::$data['_page']['title'];
+			static::$data['title'] = 'Česká nová vlna';
+
+		}
+
+		#var_dump(static::$data['movies']); die;
 
 		return static::render("Homepage/index");
 	}

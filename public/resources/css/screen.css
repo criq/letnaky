@@ -31,8 +31,24 @@ a:hover {
   margin: 0;
   font-size: 2em;
 }
-#header p {
-  margin: 0;
+#header a {
+  color: white;
+}
+#nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 2rem 0;
+  text-align: center;
+}
+#nav ul li {
+  display: inline;
+  margin: 0 .5em;
+}
+h2 {
+  font-family: "freight-display-pro";
+  font-size: 5em;
+  text-align: center;
+  font-weight: 900;
 }
 #footer {
   font-family: "freight-display-pro";
@@ -67,11 +83,11 @@ a:hover {
 .movies .movie.banner a:hover {
   border-bottom: 1px solid white;
 }
-.movies .movie.banner .title h2 {
+.movies .movie.banner .title h3 {
   font-size: 3em;
 }
 @media (max-width: 767px) {
-  .movies .movie.banner .title h2 {
+  .movies .movie.banner .title h3 {
     font-size: 2em;
   }
 }
@@ -98,14 +114,14 @@ a:hover {
     width: auto;
   }
 }
-.movies .movie td.title h2 {
+.movies .movie td.title h3 {
   font-family: "freight-display-pro";
   font-weight: 900;
   font-size: 2em;
   margin: 0;
 }
 @media (max-width: 767px) {
-  .movies .movie td.title h2 {
+  .movies .movie td.title h3 {
     font-size: 1.4em;
   }
 }
