@@ -1,0 +1,10 @@
+{% if date.isToday %}
+	<strong>dnes</strong>
+{% elseif date.isTomorrow %}
+	<strong>zítra</strong>
+{% else %}
+	<span{% if playlist %} class="hidden-xs"{% endif %}>
+		{{ _config.weekdays[date.format('N')] }}
+	</span>
+	{{ date.format('j. n.') }}
+{% endif %}
