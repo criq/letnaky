@@ -13,11 +13,16 @@ class Movie {
 		$object->title    = strip_tags($dom->filter('td')->eq(4)->html());
 		$object->entry    = (int) strtr(substr($dom->filter('td')->eq(5)->html(), 0, -3), ',', '.');
 		$object->csfdId   = (int) $dom->filter('td')->eq(6)->html();
+		$object->eventUrl = strip_tags($dom->filter('td')->eq(7)->html());
 
 		return $object;
 	}
 
 	public function getCsfdInfo() {
+		if ($this->csfdId < 0) {
+			return false;
+		}
+
 		try {
 
 			// Look for the ID.
@@ -79,15 +84,6 @@ class Movie {
 		return false;
 	}
 
-	public function getPlot() {
-		$csfdInfo = $this->getCsfdInfo();
-		if (isset($csfdInfo->plot)) {
-			return $csfdInfo->plot;
-		}
-
-		return false;
-	}
-
 	public function getCsfdUrl() {
 		$csfdInfo = $this->getCsfdInfo();
 		if (isset($csfdInfo->csfd_url)) {
@@ -95,6 +91,16 @@ class Movie {
 		}
 
 		return false;
+	}
+
+	public function getEventUrl() {
+		return $this->eventUrl;
+	}
+
+	public function getUrl() {
+		$csfdUrl = $this->getCsfdUrl();
+
+		return $csfdUrl ?: $this->getEventUrl();
 	}
 
 	public function getPosterImageColor() {

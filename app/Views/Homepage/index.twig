@@ -49,6 +49,7 @@
 						{% endif %}
 						<tr class="movie {% if isBanner %}banner{% endif %}"{% if isBanner %} style="background: #{{ color }}; color: white;"{% endif %}>
 
+							{% set url = movie.getUrl %}
 							{% set csfdUrl = movie.getCsfdUrl %}
 							{% set rating = movie.getRating %}
 
@@ -79,7 +80,9 @@
 								<a target="_blank" href="{{ movie.venueUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};"><span class="hidden-xs">{{ movie.venue }}</span><span class="hidden-lg hidden-md hidden-sm">{{ _config.venues[movie.venue].short }}</span></a>
 							</td>
 							<td class="entry hidden-xs">
-								{{ movie.entry }}&nbsp;Kč
+								{% if movie.entry %}
+									{{ movie.entry }}&nbsp;Kč
+								{% endif %}
 							</td>
 							<td class="year hidden-sm hidden-xs">
 								{{ movie.getYear }}

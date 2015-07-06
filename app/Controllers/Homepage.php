@@ -26,6 +26,8 @@ class Homepage extends \Katu\Controller {
 
 		}, 3600);
 
+		#var_dump(static::$data['movies']); die;
+
 		static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
 			return $i->dateTime->isInFuture();
 		});
