@@ -1,14 +1,21 @@
 Městské divadlo:
 	short: MdB
+	color: 0080b1
 Radnice Brna-střed:
 	short: Střed
+	color: ed5658
 Scalní letňák:
 	short: Scala
+	color: 9f5c00
 Špilberk:
 	short: Špilberk
+	color: 00d5f5
 Restaurace Pavillon:
 	short: Pavillon
+	color: bc161d
 Nádvoří staré radnice:
 	short: Nádvoří
+	color: d3031c
 AHOY:
 	short: AHOY
+	color: 92e1b9
