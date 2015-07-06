@@ -115,8 +115,16 @@ class Movie {
 
 	public function getRuntime() {
 		$csfdInfo = $this->getCsfdInfo();
-		if (isset($csfdInfo->runtime) && preg_match('#^[0-9]+ min$#', $csfdInfo->runtime, $match)) {
+		if (isset($csfdInfo->runtime) && preg_match('#^[0-9]+ min#', $csfdInfo->runtime, $match)) {
 			return $match[0];
+		}
+
+		return false;
+	}
+
+	public function getRuntimeInMinutes() {
+		if (preg_match('#^([0-9]+) min$#', $this->getRuntime(), $match)) {
+			return (int) $match[1];
 		}
 
 		return false;
@@ -126,14 +134,6 @@ class Movie {
 		$csfdInfo = $this->getCsfdInfo();
 		if (isset($csfdInfo->plot)) {
 			return $csfdInfo->plot;
-		}
-
-		return false;
-	}
-
-	public function getRuntimeInMinutes() {
-		if (preg_match('#^([0-9]+) min$#', $this->getRuntime(), $match)) {
-			return (int) $match[1];
 		}
 
 		return false;

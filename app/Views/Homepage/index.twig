@@ -41,13 +41,10 @@
 						{% set date = movie.dateTime.getDbDateFormat %}
 						{% set color = movie.getPosterImageColor.brightness(70, true).saturation(100, true).toHex %}
 						{% set isTodayOrTomorrow = movie.dateTime.isToday or movie.dateTime.isTomorrow %}
-						{% if isTodayOrTomorrow and not bannerUsed %}
-							{% set isBanner = true %}
-							{% set bannerUsed = true %}
-						{% else %}
-							{% set isBanner = false %}
+						{% if isTodayOrTomorrow and not bannerDate %}
+							{% set bannerDate = date %}
 						{% endif %}
-						<tr class="movie {% if isBanner %}banner{% endif %}"{% if isBanner %} style="background: #{{ color }}; color: white;"{% endif %} data-key="{{ key }}">
+						<tr class="movie {% if bannerDate == date %}banner{% endif %}"{% if bannerDate == date %} style="background: #{{ color }}; color: white;"{% endif %} data-key="{{ key }}">
 
 							<style type="text/css">
 								.movie[data-key="{{ key }}"] a {
