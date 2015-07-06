@@ -23,13 +23,21 @@ class Weather {
 
 		} catch (\Exception $e) {
 
-			$res = \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('https://www.googleapis.com/language/translate/v2', [
-				'key' => \Katu\Keychain::get('google', 'api', 'key'),
-				'target' => 'cs',
-				'q' => $this->item->weather[0]->description,
-			]));
+			try {
 
-			return $res->data->translations[0]->translatedText;
+				$res = \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('https://www.googleapis.com/language/translate/v2', [
+					'key' => \Katu\Keychain::get('google', 'api', 'key'),
+					'target' => 'cs',
+					'q' => $this->item->weather[0]->description,
+				]));
+
+				return $res->data->translations[0]->translatedText;
+
+			} catch (\Exception $e) {
+
+				return $this->item->weather[0]->description;
+
+			}
 
 		}
 	}
