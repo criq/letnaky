@@ -100,8 +100,13 @@ a {
 			}
 
 			a {
-				color: white !important;
-				border-bottom: 1px dotted white !important;
+				color: white;
+				border: none;
+
+				&:hover {
+					border-bottom: 1px solid white;
+				}
+
 			}
 
 			.title {
@@ -113,10 +118,6 @@ a {
 						font-size: 2em;
 					}
 
-				}
-
-				a {
-					border: none !important;
 				}
 
 			}

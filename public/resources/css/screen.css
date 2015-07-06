@@ -61,8 +61,11 @@ a:hover {
   border-bottom: none;
 }
 .movies .movie.banner a {
-  color: white !important;
-  border-bottom: 1px dotted white !important;
+  color: white;
+  border: none;
+}
+.movies .movie.banner a:hover {
+  border-bottom: 1px solid white;
 }
 .movies .movie.banner .title h2 {
   font-size: 3em;
@@ -71,9 +74,6 @@ a:hover {
   .movies .movie.banner .title h2 {
     font-size: 2em;
   }
-}
-.movies .movie.banner .title a {
-  border: none !important;
 }
 .movies .movie td {
   vertical-align: middle;

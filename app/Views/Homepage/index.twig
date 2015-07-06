@@ -21,7 +21,7 @@
 			<div class="col-xs-12">
 
 				<table class="movies">
-					{% for movie in movies %}
+					{% for key, movie in movies %}
 						{% if date != movie.dateTime.getDbDateFormat %}
 							<tr>
 								<th class="date" colspan="7">
@@ -47,7 +47,17 @@
 						{% else %}
 							{% set isBanner = false %}
 						{% endif %}
-						<tr class="movie {% if isBanner %}banner{% endif %}"{% if isBanner %} style="background: #{{ color }}; color: white;"{% endif %}>
+						<tr class="movie {% if isBanner %}banner{% endif %}"{% if isBanner %} style="background: #{{ color }}; color: white;"{% endif %} data-key="{{ key }}">
+
+							<style type="text/css">
+								.movie[data-key="{{ key }}"] a {
+									color: #{{ color }};
+									border: none;
+								}
+								.movie[data-key="{{ key }}"] a:hover {
+									border-bottom: 1px solid #{{ color }};
+								}
+							</style>
 
 							{% set url = movie.getUrl %}
 							{% set csfdUrl = movie.getCsfdUrl %}
@@ -59,9 +69,9 @@
 								</p>
 							</td>
 							<td class="title">
-								<h2 style="color: #{{ color }};">
-									{% if csfdUrl %}
-										<a target="_blank" href="{{ csfdUrl }}" style="color: #{{ color }}; border: none;">{{ movie.title }}</a>
+								<h2>
+									{% if url %}
+										<a target="_blank" href="{{ url }}">{{ movie.title }}</a>
 									{% else %}
 										{{ movie.title }}
 									{% endif %}
@@ -70,14 +80,14 @@
 							<td class="rating hidden-xs">
 								{% if rating %}
 									{% if csfdUrl %}
-										<a target="_blank" href="{{ csfdUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};">{{ rating|localPercent }}</a>
+										<a target="_blank" href="{{ csfdUrl }}">{{ rating|localPercent }}</a>
 									{% else %}
 										{{ rating|localPercent }}
 									{% endif %}
 								{% endif %}
 							</td>
 							<td class="venue">
-								<a target="_blank" href="{{ movie.venueUrl }}" style="color: #{{ color }}; border-bottom: 1px dotted #{{ color }};"><span class="hidden-xs">{{ movie.venue }}</span><span class="hidden-lg hidden-md hidden-sm">{{ _config.venues[movie.venue].short }}</span></a>
+								<a target="_blank" href="{{ movie.venueUrl }}"><span class="hidden-xs">{{ movie.venue }}</span><span class="hidden-lg hidden-md hidden-sm">{{ _config.venues[movie.venue].short }}</span></a>
 							</td>
 							<td class="entry hidden-xs">
 								{% if movie.entry %}
