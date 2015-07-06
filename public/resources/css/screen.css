@@ -155,6 +155,9 @@ h2 {
   width: 5%;
   white-space: nowrap;
 }
+.movies .movie td.calendar {
+  width: 1%;
+}
 .movies p {
   margin: 0;
 }

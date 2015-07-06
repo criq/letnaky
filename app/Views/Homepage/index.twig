@@ -24,7 +24,7 @@
 					{% for key, movie in movies %}
 						{% if date != movie.dateTime.getDbDateFormat %}
 							<tr>
-								<th class="date" colspan="7">
+								<th class="date" colspan="8">
 									<p>
 										{% if movie.dateTime.isToday %}
 											<strong>dnes</strong>
@@ -99,6 +99,9 @@
 							</td>
 							<td class="runtime hidden-sm hidden-xs">
 								{{ movie.getRuntime }}
+							</td>
+							<td class="calendar hidden-sm hidden-xs">
+								<a href="{{ getUrlFor('addToCalendar', { movieHash: movie.hash }) }}"><i class="fa fa-calendar"></i></a>
 							</td>
 
 						</tr>

@@ -7,26 +7,9 @@ class Homepage extends \Katu\Controller {
 	static function index() {
 		$app = \Katu\App::get();
 
-		static::$data['movies'] = \Katu\Utils\Cache::get('movies', function() {
+		static::$data['movies'] = \App\Classes\Movie::getAll();
 
-			$res = \Katu\Utils\Cache::getUrl('https://docs.google.com/spreadsheets/d/1_H6y1uS-yGkZGfdMtS2kFkCw5Fgml35PDJcK0ZcWr_0/pubhtml', 3600);
-			$dom = \Katu\Utils\DOM::crawlHtml($res);
-
-			$movies = array_slice($dom->filter('table tbody tr')->each(function($e) {
-				return \App\Classes\Movie::createFromTable($e);
-			}), 2);
-
-			$movies = array_filter($movies, function($i) {
-				return $i->venueUrl;
-			});
-
-			array_multisort(array_map(function($i) {
-				return $i->dateTime->getTimestamp();
-			}, $movies), $movies);
-
-			return $movies;
-
-		}, 3600);
+		#var_dump(static::$data['movies']); die;
 
 		static::$data['_page']['title'] = 'Letňáky v Brně';
 
@@ -67,6 +50,33 @@ class Homepage extends \Katu\Controller {
 		#var_dump(static::$data['movies']); die;
 
 		return static::render("Homepage/index");
+	}
+
+	static function addToCalendar($movieHash) {
+		$app = \Katu\App::get();
+
+		$movie = \App\Classes\Movie::getByHash($movieHash);
+
+		$lines = [];
+
+		$lines[] = 'BEGIN:VCALENDAR';
+		$lines[] = 'VERSION:2.0';
+		$lines[] = 'CALSCALE:GREGORIAN';
+		$lines[] = 'BEGIN:VEVENT';
+		$lines[] = 'UID:' . $movie->hash;
+		$lines[] = 'DTSTAMP;TZID=Europe/Prague:' . $movie->dateTime->format('Ymd') . 'T' . $movie->dateTime->format('His');
+		$lines[] = 'DTSTART;TZID=Europe/Prague:' . $movie->dateTime->format('Ymd') . 'T' . $movie->dateTime->format('His');
+		$lines[] = 'DTEND;TZID=Europe/Prague:' . $movie->dateTime->modify('+ ' . $movie->getRuntimeInMinutes() . ' minutes')->format('Ymd') . 'T' . $movie->dateTime->format('His');
+		$lines[] = 'SUMMARY:' . $movie->title;
+		$lines[] = 'DESCRIPTION:' . $movie->getPlot();
+		$lines[] = 'LOCATION:' . $movie->venue;
+		$lines[] = 'URL;VALUE=URI:' . $movie->venueUrl;
+		$lines[] = 'END:VEVENT';
+		$lines[] = 'END:VCALENDAR';
+
+		$app->response->headers->set('Content-Type', 'text/calendar');
+		$app->response->headers->set('Content-Disposition', 'attachment; filename=film.ics');
+		$app->response->setBody(implode("\n", $lines));
 	}
 
 }

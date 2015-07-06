@@ -4,6 +4,39 @@ namespace App\Classes;
 
 class Movie {
 
+	static function getAll($timeout = null) {
+		return \Katu\Utils\Cache::get('movies', function() use($timeout) {
+
+			$res = \Katu\Utils\Cache::getUrl('https://docs.google.com/spreadsheets/d/1_H6y1uS-yGkZGfdMtS2kFkCw5Fgml35PDJcK0ZcWr_0/pubhtml', $timeout);
+			$dom = \Katu\Utils\DOM::crawlHtml($res);
+
+			$movies = array_slice($dom->filter('table tbody tr')->each(function($e) {
+				return static::createFromTable($e);
+			}), 2);
+
+			$movies = array_filter($movies, function($i) {
+				return $i->venueUrl;
+			});
+
+			array_multisort(array_map(function($i) {
+				return $i->dateTime->getTimestamp();
+			}, $movies), $movies);
+
+			return $movies;
+
+		}, $timeout);
+	}
+
+	static function getByHash($hash) {
+		foreach (static::getAll() as $movie) {
+			if ($movie->hash == $hash) {
+				return $movie;
+			}
+		}
+
+		return false;
+	}
+
 	static function createFromTable($dom) {
 		$object = new static;
 
@@ -14,6 +47,11 @@ class Movie {
 		$object->entry    = (int) strtr(substr($dom->filter('td')->eq(5)->html(), 0, -3), ',', '.');
 		$object->csfdId   = (int) $dom->filter('td')->eq(6)->html();
 		$object->eventUrl = strip_tags($dom->filter('td')->eq(7)->html());
+		$object->hash     = sha1(\Katu\Utils\JSON::encodeStandard([
+			$object->venue,
+			$object->dateTime,
+			$object->title,
+		]));
 
 		return $object;
 	}
@@ -79,6 +117,23 @@ class Movie {
 		$csfdInfo = $this->getCsfdInfo();
 		if (isset($csfdInfo->runtime) && preg_match('#^[0-9]+ min$#', $csfdInfo->runtime, $match)) {
 			return $match[0];
+		}
+
+		return false;
+	}
+
+	public function getPlot() {
+		$csfdInfo = $this->getCsfdInfo();
+		if (isset($csfdInfo->plot)) {
+			return $csfdInfo->plot;
+		}
+
+		return false;
+	}
+
+	public function getRuntimeInMinutes() {
+		if (preg_match('#^([0-9]+) min$#', $this->getRuntime(), $match)) {
+			return (int) $match[1];
 		}
 
 		return false;
