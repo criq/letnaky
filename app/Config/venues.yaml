@@ -1,21 +1,21 @@
-Městské divadlo:
-	short: MdB
-	color: 0080b1
-Radnice Brna-střed:
-	short: Střed
-	color: ed5658
-Scalní letňák:
-	short: Scala
-	color: 9f5c00
-Špilberk:
-	short: Špilberk
-	color: 00d5f5
-Restaurace Pavillon:
-	short: Pavillon
-	color: bc161d
-Nádvoří staré radnice:
-	short: Nádvoří
-	color: d3031c
 AHOY:
 	short: AHOY
-	color: 92e1b9
+	color: 1dbf6e
+Špilberk:
+	short: Špilberk
+	color: 1d89bf
+Scalní letňák:
+	short: Scala
+	color: 381dbf
+Restaurace Pavillon:
+	short: Pavillon
+	color: bf1dbf
+Městské divadlo:
+	short: MdB
+	color: bf1d38
+Radnice Brna-střed:
+	short: Střed
+	color: bf891d
+Nádvoří staré radnice:
+	short: Nádvoří
+	color: 6ebf1d
