@@ -22,6 +22,7 @@
 
 				<table class="movies">
 					{% for key, movie in movies %}
+
 						{% if date != movie.dateTime.getDbDateFormat and not playlist %}
 							<tr>
 								<th class="date" colspan="8">

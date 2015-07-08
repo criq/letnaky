@@ -13,6 +13,11 @@
 
 {% if weather and not playlist and (date.isToday or date.isTomorrow) %}
 	<span class="weather">
-		{{ weather.getWeather }} &middot; {{ weather.getTemperature }}&nbsp;°C
+		{{ weather.getWeather }}
+		&middot; {{ weather.getTemperature }}&nbsp;°C
+		{% set rain = weather.rain['3h']|round %}
+		{% if rain %}
+			&middot; <i class="fa fa-tint"></i> {{ rain }}&nbsp;mm
+		{% endif %}
 	</span>
 {% endif %}
