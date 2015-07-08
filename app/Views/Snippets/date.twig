@@ -18,6 +18,8 @@
 		{% set rain = weather.rain['3h']|round %}
 		{% if rain %}
 			&middot; <i class="fa fa-tint"></i> {{ rain }}&nbsp;mm
+		{% else %}
+			&middot; bez deště
 		{% endif %}
 	</span>
 {% endif %}
