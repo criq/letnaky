@@ -17,6 +17,8 @@ class Weather {
 	}
 
 	public function getWeather() {
+		#var_dump($this->item->weather[0]->description);
+
 		try {
 
 			return \Katu\Config::get('weather', $this->item->weather[0]->description);
