@@ -44,4 +44,15 @@ class Weather {
 		}
 	}
 
+	public function getRain() {
+		if (isset($this->item->rain)) {
+			$rain = ((array) $this->item->rain);
+			if (isset($rain['3h'])) {
+				return $rain['3h'];
+			}
+		}
+
+		return 0;
+	}
+
 }

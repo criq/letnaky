@@ -15,9 +15,11 @@
 	<span class="weather">
 		{{ weather.getWeather }}
 		&middot; {{ weather.getTemperature }}&nbsp;°C
-		{% set rain = weather.rain['3h']|round %}
-		{% if rain %}
-			&middot; <i class="fa fa-tint"></i> {{ rain }}&nbsp;mm
+		{% set rain = weather.getRain %}
+		{% if rain and rain|round < 1 %}
+			&middot; <i class="fa fa-tint"></i> &lt; 1&nbsp;mm
+		{% elseif rain %}
+			&middot; <i class="fa fa-tint"></i> {{ rain|round }}&nbsp;mm
 		{% else %}
 			&middot; bez deště
 		{% endif %}
