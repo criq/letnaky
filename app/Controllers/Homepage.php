@@ -143,6 +143,8 @@ class Homepage extends \Katu\Controller {
 
 					\Katu\Utils\FileStorage::set($fileStorageName, $id);
 
+					break;
+
 				}
 
 			}
