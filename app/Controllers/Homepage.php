@@ -9,8 +9,6 @@ class Homepage extends \Katu\Controller {
 
 		static::$data['movies'] = \App\Classes\Movie::getAll();
 
-		#var_dump(static::$data['movies']); die;
-
 		static::$data['_page']['title'] = 'Letňáky v Brně';
 
 		static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
@@ -96,6 +94,69 @@ class Homepage extends \Katu\Controller {
 		$app->response->headers->set('Content-Type', 'text/calendar');
 		$app->response->headers->set('Content-Disposition', 'attachment; filename=film.ics');
 		$app->response->setBody(implode("\n", $lines));
+	}
+
+	static function publishToFacebook() {
+		$pageId = 1668385493380758;
+
+		$accessToken = \Katu\Utils\Tmp::get('accessToken');
+		if (!$accessToken) {
+			$url = \Katu\Utils\Url::getFor('publish.facebook');
+			\Katu\Utils\Facebook::login($url, $url, null, ['manage_pages', 'publish_actions', 'publish_pages']);
+
+			$session = \Katu\Utils\Facebook::getSession();
+
+			$request = new \Facebook\FacebookRequest($session, 'GET', '/' . $pageId, [
+				'fields' => 'access_token',
+			]);
+			$accessToken = $request->execute()->getGraphObject()->getProperty('access_token');
+
+			\Katu\Utils\Tmp::set('accessToken', $accessToken);
+		}
+
+		try {
+
+			\Katu\Utils\Facebook::setToken($accessToken);
+			$session = \Katu\Utils\Facebook::getSession();
+
+			static::$data['movies'] = array_filter(\App\Classes\Movie::getAll(), function($i) {
+				return $i->dateTime->isToday();
+			});
+
+			foreach (static::$data['movies'] as $movie) {
+
+				$fileStorageName = ['publish', 'facebook', $movie->hash];
+				$csfdUrl = $movie->getCsfdUrl();
+				if (!\Katu\Utils\FileStorage::get($fileStorageName) && $csfdUrl) {
+
+					$message = [];
+					$message[] = $movie->title . ' dnes ve ' . $movie->dateTime->format('H:i') . ' ' . \Katu\Config::get('venues', $movie->venue, 'in') . '.';
+					$message[] = '(' . $movie->getRating() * 100 . ' %)';
+
+					$request = new \Facebook\FacebookRequest($session, 'POST', '/' . $pageId . '/feed', [
+						'message' => implode(' ', $message),
+						'link' => $csfdUrl,
+						'place' => \Katu\Config::get('venues', $movie->venue, 'facebookId'),
+					]);
+
+					$id = $request->execute()->getGraphObject()->getProperty('id');
+
+					\Katu\Utils\FileStorage::set($fileStorageName, $id);
+
+				}
+
+			}
+
+		} catch (\Facebook\FacebookPermissionException $e) {
+			var_dump($e);
+		}
+
+	}
+
+	static function publishToTwitter() {
+		static::$data['movies'] = \App\Classes\Movie::getAll();
+
+		var_dump(static::$data['movies']);
 	}
 
 }

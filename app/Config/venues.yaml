@@ -1,21 +1,35 @@
 AHOY:
 	short: AHOY
 	color: 32AB22
+	in: v AHOY na Priglu
+	facebookId: 1586476778230795
 Špilberk:
 	short: Špilberk
 	color: 227517
+	in: na Špilberku
+	facebookId: 729646350426936
 Scalní letňák:
 	short: Scala
 	color: F2C230
+	in: ve Scalním letňáku
+	facebookId: 438580109498109
 Restaurace Pavillon:
 	short: Pavillon
 	color: 023770
+	in: v Pavillonu
+	facebookId: 320571951363976
 Městské divadlo:
 	short: MdB
 	color: 0576F2
+	in: na dvoře Městského divadla
+	facebookId: 464222550388191
 Radnice Brna-střed:
 	short: Střed
 	color: F23E2E
+	in: na nádvoří radnice Brna-střed
+	facebookId: 456275811132472
 Nádvoří staré radnice:
 	short: Nádvoří
 	color: F28630
+	in: na nádvoří Staré radnice
+	facebookId: 719705371486250
