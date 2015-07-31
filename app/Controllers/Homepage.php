@@ -7,7 +7,7 @@ class Homepage extends \Katu\Controller {
 	static function index() {
 		$app = \Katu\App::get();
 
-		static::$data['movies'] = \App\Classes\Movie::getAll();
+		static::$data['movies'] = \App\Classes\Movie::getAll(86400);
 
 		static::$data['_page']['title'] = 'Letňáky v Brně';
 
