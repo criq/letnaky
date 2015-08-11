@@ -51,12 +51,13 @@ class Homepage extends \Katu\Controller {
 
 		}
 
-		$res = \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('http://api.openweathermap.org/data/2.5/forecast', [
-			'q'     => 'Brno,cz',
+		$url = \Katu\Types\TUrl::make('http://api.openweathermap.org/data/2.5/forecast', [
+			'q'     => 'Brno',
 			'mode'  => 'json',
 			'units' => 'metric',
 			'lang'  => 'en',
-		]), 3600);
+		]);
+		$res = \Katu\Utils\Cache::getUrl($url, 1);
 
 		static::$data['weather'] = [];
 		if (isset($res->list)) {
