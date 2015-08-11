@@ -59,10 +59,12 @@ class Homepage extends \Katu\Controller {
 		]), 3600);
 
 		static::$data['weather'] = [];
-		foreach ($res->list as $i) {
-			$dateTime = new \Katu\Utils\DateTime('@' . $i->dt);
-			if ($dateTime->format('Hi') == '2100') {
-				static::$data['weather'][$dateTime->format('Ymd')] = \App\Classes\Weather::createFromApi($i);
+		if (isset($res->list)) {
+			foreach ($res->list as $i) {
+				$dateTime = new \Katu\Utils\DateTime('@' . $i->dt);
+				if ($dateTime->format('Hi') == '2100') {
+					static::$data['weather'][$dateTime->format('Ymd')] = \App\Classes\Weather::createFromApi($i);
+				}
 			}
 		}
 
