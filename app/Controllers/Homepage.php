@@ -165,8 +165,7 @@ class Homepage extends \Katu\Controller {
 	}
 
 	static function test() {
-		var_dump(disk_total_space(BASE_DIR));
-		var_dump(disk_free_space(BASE_DIR));
+		var_dump(\Katu\Utils\FileSystem::getDiskUsage());
 	}
 
 }
