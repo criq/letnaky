@@ -164,8 +164,4 @@ class Homepage extends \Katu\Controller {
 		var_dump(static::$data['movies']);
 	}
 
-	static function test() {
-		var_dump(\Katu\Utils\FileSystem::getDiskUsage());
-	}
-
 }

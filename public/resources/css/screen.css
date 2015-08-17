@@ -181,3 +181,7 @@ h2 {
 .movies p {
   margin: 0;
 }
+#video {
+  text-align: center;
+  margin: 4rem 0;
+}

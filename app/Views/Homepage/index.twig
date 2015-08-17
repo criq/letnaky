@@ -16,107 +16,125 @@
 		</div>
 	{% endif %}
 
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-xs-12">
+	{% if movies|length %}
 
-				<table class="movies">
-					{% for key, movie in movies %}
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
 
-						{% if date != movie.dateTime.getDbDateFormat and not playlist %}
-							<tr>
-								<th class="date" colspan="8">
+					<table class="movies">
+						{% for key, movie in movies %}
+
+							{% if date != movie.dateTime.getDbDateFormat and not playlist %}
+								<tr>
+									<th class="date" colspan="8">
+										<p>
+											{% include "Snippets/date.twig" with {
+												date: movie.dateTime,
+												weather: weather[movie.dateTime.format('Ymd')],
+											} %}
+										</p>
+									</th>
+								</tr>
+							{% endif %}
+							{% set date = movie.dateTime.getDbDateFormat %}
+							{% set color = movie.getPosterImageColor.toHex %}
+							{% set isTodayOrTomorrow = movie.dateTime.isToday or movie.dateTime.isTomorrow %}
+							{% if isTodayOrTomorrow and not bannerDate %}
+								{% set bannerDate = date %}
+							{% endif %}
+							<tr class="movie {% if bannerDate == date %}banner{% endif %}"{% if bannerDate == date %} style="background: #{{ color }}; color: white;"{% endif %} data-key="{{ key }}">
+
+								<style type="text/css">
+									.movie[data-key="{{ key }}"] a {
+										color: #{{ color }};
+										border: none;
+									}
+									.movie[data-key="{{ key }}"] a:hover {
+										border-bottom: 1px solid #{{ color }};
+									}
+								</style>
+
+								{% set url = movie.getUrl %}
+								{% set csfdUrl = movie.getCsfdUrl %}
+								{% set rating = movie.getRating %}
+
+								{% if playlist %}
+									<td class="date hidden-xs">
+										<p>
+											{% include "Snippets/date.twig" with { date: movie.dateTime } %}
+										</p>
+									</td>
+								{% endif %}
+
+								<td class="time">
+									{% if playlist %}
+										<p class="hidden-lg hidden-md hidden-sm">
+											{% include "Snippets/date.twig" with { date: movie.dateTime } %}
+										</p>
+									{% endif %}
 									<p>
-										{% include "Snippets/date.twig" with {
-											date: movie.dateTime,
-											weather: weather[movie.dateTime.format('Ymd')],
-										} %}
-									</p>
-								</th>
-							</tr>
-						{% endif %}
-						{% set date = movie.dateTime.getDbDateFormat %}
-						{% set color = movie.getPosterImageColor.toHex %}
-						{% set isTodayOrTomorrow = movie.dateTime.isToday or movie.dateTime.isTomorrow %}
-						{% if isTodayOrTomorrow and not bannerDate %}
-							{% set bannerDate = date %}
-						{% endif %}
-						<tr class="movie {% if bannerDate == date %}banner{% endif %}"{% if bannerDate == date %} style="background: #{{ color }}; color: white;"{% endif %} data-key="{{ key }}">
-
-							<style type="text/css">
-								.movie[data-key="{{ key }}"] a {
-									color: #{{ color }};
-									border: none;
-								}
-								.movie[data-key="{{ key }}"] a:hover {
-									border-bottom: 1px solid #{{ color }};
-								}
-							</style>
-
-							{% set url = movie.getUrl %}
-							{% set csfdUrl = movie.getCsfdUrl %}
-							{% set rating = movie.getRating %}
-
-							{% if playlist %}
-								<td class="date hidden-xs">
-									<p>
-										{% include "Snippets/date.twig" with { date: movie.dateTime } %}
+										{{ movie.dateTime|localTime }}
 									</p>
 								</td>
-							{% endif %}
-
-							<td class="time">
-								{% if playlist %}
-									<p class="hidden-lg hidden-md hidden-sm">
-										{% include "Snippets/date.twig" with { date: movie.dateTime } %}
-									</p>
-								{% endif %}
-								<p>
-									{{ movie.dateTime|localTime }}
-								</p>
-							</td>
-							<td class="title">
-								<h3>
-									{% if url %}
-										<a target="_blank" href="{{ url }}">{{ movie.title }}</a>
-									{% else %}
-										{{ movie.title }}
+								<td class="title">
+									<h3>
+										{% if url %}
+											<a target="_blank" href="{{ url }}">{{ movie.title }}</a>
+										{% else %}
+											{{ movie.title }}
+										{% endif %}
+									</h3>
+								</td>
+								<td class="rating hidden-xs">
+									{% if rating %}
+										{% if csfdUrl %}
+											<a target="_blank" href="{{ csfdUrl }}">{{ rating|localPercent }}</a>
+										{% else %}
+											{{ rating|localPercent }}
+										{% endif %}
 									{% endif %}
-								</h3>
-							</td>
-							<td class="rating hidden-xs">
-								{% if rating %}
-									{% if csfdUrl %}
-										<a target="_blank" href="{{ csfdUrl }}">{{ rating|localPercent }}</a>
-									{% else %}
-										{{ rating|localPercent }}
+								</td>
+								<td class="venue">
+									<a target="_blank" href="{{ movie.venueUrl }}"><span class="hidden-xs">{{ movie.venue }}</span><span class="hidden-lg hidden-md hidden-sm">{{ _config.venues[movie.venue].short }}</span></a>
+								</td>
+								<td class="entry hidden-xs">
+									{% if movie.entry %}
+										{{ movie.entry }}&nbsp;Kč
 									{% endif %}
-								{% endif %}
-							</td>
-							<td class="venue">
-								<a target="_blank" href="{{ movie.venueUrl }}"><span class="hidden-xs">{{ movie.venue }}</span><span class="hidden-lg hidden-md hidden-sm">{{ _config.venues[movie.venue].short }}</span></a>
-							</td>
-							<td class="entry hidden-xs">
-								{% if movie.entry %}
-									{{ movie.entry }}&nbsp;Kč
-								{% endif %}
-							</td>
-							<td class="year hidden-sm hidden-xs">
-								{{ movie.getYear }}
-							</td>
-							<td class="runtime hidden-sm hidden-xs">
-								{{ movie.getRuntime }}
-							</td>
-							<td class="calendar hidden-sm hidden-xs">
-								<a href="{{ getUrlFor('addToCalendar', { movieHash: movie.hash }) }}"><i class="fa fa-calendar"></i></a>
-							</td>
+								</td>
+								<td class="year hidden-sm hidden-xs">
+									{{ movie.getYear }}
+								</td>
+								<td class="runtime hidden-sm hidden-xs">
+									{{ movie.getRuntime }}
+								</td>
+								<td class="calendar hidden-sm hidden-xs">
+									<a href="{{ getUrlFor('addToCalendar', { movieHash: movie.hash }) }}"><i class="fa fa-calendar"></i></a>
+								</td>
 
-						</tr>
-					{% endfor %}
-				</table>
+							</tr>
+						{% endfor %}
+					</table>
 
+				</div>
 			</div>
 		</div>
-	</div>
+
+	{% else %}
+
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+
+					<div id="video">
+						<iframe width="480" height="360" src="https://www.youtube.com/embed/XIyWP0JSpbA?rel=0" frameborder="0" allowfullscreen></iframe>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	{% endif %}
 
 {% endblock content %}
