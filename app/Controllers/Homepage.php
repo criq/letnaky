@@ -51,22 +51,26 @@ class Homepage extends \Katu\Controller {
 
 		}
 
-		$url = \Katu\Types\TUrl::make('http://api.openweathermap.org/data/2.5/forecast', [
-			'q'     => 'Brno',
-			'mode'  => 'json',
-			'units' => 'metric',
-			'lang'  => 'en',
-		]);
-		$res = \Katu\Utils\Cache::getUrl($url, 1);
+		try {
+			$url = \Katu\Types\TUrl::make('http://api.openweathermap.org/data/2.5/forecast', [
+				'q'     => 'Brno',
+				'mode'  => 'json',
+				'units' => 'metric',
+				'lang'  => 'en',
+			]);
+			$res = \Katu\Utils\Cache::getUrl($url, 1);
 
-		static::$data['weather'] = [];
-		if (isset($res->list)) {
-			foreach ($res->list as $i) {
-				$dateTime = new \Katu\Utils\DateTime('@' . $i->dt);
-				if ($dateTime->format('Hi') == '2100') {
-					static::$data['weather'][$dateTime->format('Ymd')] = \App\Classes\Weather::createFromApi($i);
+			static::$data['weather'] = [];
+			if (isset($res->list)) {
+				foreach ($res->list as $i) {
+					$dateTime = new \Katu\Utils\DateTime('@' . $i->dt);
+					if ($dateTime->format('Hi') == '2100') {
+						static::$data['weather'][$dateTime->format('Ymd')] = \App\Classes\Weather::createFromApi($i);
+					}
 				}
 			}
+		} catch (\Exception $e) {
+
 		}
 
 		return static::render("Homepage/index");
