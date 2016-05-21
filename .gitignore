@@ -6,7 +6,7 @@ composer.lock
 vendor/*
 
 .platform
-tmp/*
-public/tmp/*
-logs/*
-app/Keychains/*
+/tmp/*
+/public/tmp/*
+/logs/*
+/public/components/
