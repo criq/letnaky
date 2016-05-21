@@ -15,7 +15,7 @@ class Movie {
 			}), 2);
 
 			$movies = array_filter($movies, function($i) {
-				return $i->venueUrl;
+				return $i->venueUrl && $i->dateTime;
 			});
 
 			array_multisort(array_map(function($i) {
@@ -43,6 +43,9 @@ class Movie {
 		$object->venue    = strip_tags($dom->filter('td')->eq(0)->html());
 		$object->venueUrl = strip_tags($dom->filter('td')->eq(1)->html());
 		$object->dateTime = \Katu\Utils\DateTime::createFromFormat('j.n.Y H:i:s', $dom->filter('td')->eq(2)->html() . ' ' . $dom->filter('td')->eq(3)->html());
+		if (!$object->dateTime) {
+			$object->dateTime = \Katu\Utils\DateTime::createFromFormat('j.n.Y H:i', $dom->filter('td')->eq(2)->html() . ' ' . $dom->filter('td')->eq(3)->html());
+		}
 		$object->title    = strip_tags($dom->filter('td')->eq(4)->html());
 		$object->entry    = (int) strtr(substr($dom->filter('td')->eq(5)->html(), 0, -3), ',', '.');
 		$object->csfdId   = (int) $dom->filter('td')->eq(6)->html();
@@ -62,6 +65,11 @@ class Movie {
 		}
 
 		try {
+
+			$src = \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('http://www.csfd.cz/hledat/', [
+				'q' => $this->title,
+			]));
+			$dom = \Katu\Utils\DOM::crawlHtml($src);
 
 			// Look for the ID.
 			if (!$this->csfdId) {
@@ -130,19 +138,26 @@ class Movie {
 		return false;
 	}
 
-	public function getPlot() {
-		$csfdInfo = $this->getCsfdInfo();
-		if (isset($csfdInfo->plot)) {
-			return $csfdInfo->plot;
+	public function getCsfdUrl() {
+		if ($this->csfdId < 0) {
+			return false;
 		}
 
-		return false;
-	}
+		try {
 
-	public function getCsfdUrl() {
-		$csfdInfo = $this->getCsfdInfo();
-		if (isset($csfdInfo->csfd_url)) {
-			return $csfdInfo->csfd_url;
+			$src = \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('http://www.csfd.cz/hledat/', [
+				'q' => $this->title,
+			]));
+			$dom = \Katu\Utils\DOM::crawlHtml($src);
+
+			try {
+				return 'http://www.csfd.cz' . $dom->filter('#search-films .content ul li')->eq(0)->filter('a')->attr('href');
+			} catch (\Exception $e) {
+				return false;
+			}
+
+		} catch (\Exception $e) {
+			return false;
 		}
 
 		return false;
