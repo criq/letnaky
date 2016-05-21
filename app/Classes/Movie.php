@@ -67,16 +67,29 @@ class Movie {
 			$dom = \Katu\Utils\DOM::crawlHtml($src);
 
 			$res = [];
-			if (preg_match('#^([0-9]+)%$#', $dom->filter('#rating .average')->html(), $match)) {
-				$res['rating'] = $match[1] * .01;
+
+			try {
+				if (preg_match('#^([0-9]+)%$#', $dom->filter('#rating .average')->html(), $match)) {
+					$res['rating'] = $match[1] * .01;
+				}
+			} catch (\Exception $e) {
+
 			}
 
-			if (preg_match('#"year":([0-9]{4})#', $src, $match)) {
-				$res['year'] = $match[1];
+			try {
+				if (preg_match('#"year":([0-9]{4})#', $src, $match)) {
+					$res['year'] = $match[1];
+				}
+			} catch (\Exception $e) {
+
 			}
 
-			if (preg_match('#([0-9]+) min#', $src, $match)) {
-				$res['runtime'] = $match[1];
+			try {
+				if (preg_match('#([0-9]+) min#', $src, $match)) {
+					$res['runtime'] = $match[1];
+				}
+			} catch (\Exception $e) {
+
 			}
 
 			return $res;
