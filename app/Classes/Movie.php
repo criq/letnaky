@@ -60,53 +60,34 @@ class Movie {
 	}
 
 	public function getCsfdInfo() {
-		if ($this->csfdId < 0) {
-			return false;
-		}
+		$csfdUrl = $this->getCsfdUrl();
+		if ($csfdUrl) {
 
-		try {
-
-			$src = \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('http://www.csfd.cz/hledat/', [
-				'q' => $this->title,
-			]));
+			$src = \Katu\Utils\Cache::getUrl($csfdUrl);
 			$dom = \Katu\Utils\DOM::crawlHtml($src);
 
-			// Look for the ID.
-			if (!$this->csfdId) {
-				$res = \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('http://csfdapi.cz/movie', [
-					'search' => $this->title,
-				]));
-				if (isset($res[0])) {
-					$csfdId = $res[0]->id;
-				}
-			} else {
-				$csfdId = $this->csfdId;
+			$res = [];
+			if (preg_match('#^([0-9]+)%$#', $dom->filter('#rating .average')->html(), $match)) {
+				$res['rating'] = $match[1] * .01;
 			}
 
-			if ($csfdId) {
-				return \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('http://csfdapi.cz/movie/' . $csfdId));
+			if (preg_match('#"year":([0-9]{4})#', $src, $match)) {
+				$res['year'] = $match[1];
 			}
 
-		} catch (\Exception $e) {
-			return false;
+			if (preg_match('#([0-9]+) min#', $src, $match)) {
+				$res['runtime'] = $match[1];
+			}
+
+			return $res;
+
 		}
-
-		return false;
 	}
 
 	public function getRating() {
 		$csfdInfo = $this->getCsfdInfo();
-		if (isset($csfdInfo->rating)) {
-			return $csfdInfo->rating * .01;
-		}
-
-		return false;
-	}
-
-	public function getPosterUrl() {
-		$csfdInfo = $this->getCsfdInfo();
-		if (isset($csfdInfo->poster_url)) {
-			return $csfdInfo->poster_url;
+		if (isset($csfdInfo['rating'])) {
+			return $csfdInfo['rating'];
 		}
 
 		return false;
@@ -114,8 +95,8 @@ class Movie {
 
 	public function getYear() {
 		$csfdInfo = $this->getCsfdInfo();
-		if (isset($csfdInfo->year)) {
-			return $csfdInfo->year;
+		if (isset($csfdInfo['year'])) {
+			return $csfdInfo['year'];
 		}
 
 		return false;
@@ -123,8 +104,8 @@ class Movie {
 
 	public function getRuntime() {
 		$csfdInfo = $this->getCsfdInfo();
-		if (isset($csfdInfo->runtime) && preg_match('#^[0-9]+ min#', $csfdInfo->runtime, $match)) {
-			return $match[0];
+		if (isset($csfdInfo['runtime'])) {
+			return $csfdInfo['runtime'];
 		}
 
 		return false;

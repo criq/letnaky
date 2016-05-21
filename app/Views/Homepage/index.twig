@@ -58,6 +58,7 @@
 								{% set url = movie.getUrl %}
 								{% set csfdUrl = movie.getCsfdUrl %}
 								{% set rating = movie.getRating %}
+								{% set runtime = movie.getRuntime %}
 
 								{% if playlist %}
 									<td class="date hidden-xs">
@@ -107,7 +108,9 @@
 									{{ movie.getYear }}
 								</td>
 								<td class="runtime hidden-sm hidden-xs">
-									{{ movie.getRuntime }}
+									{% if runtime %}
+										{{ runtime }} min
+									{% endif %}
 								</td>
 								<td class="calendar hidden-sm hidden-xs">
 									<a href="{{ getUrlFor('addToCalendar', { movieHash: movie.hash }) }}"><i class="fa fa-calendar"></i></a>
