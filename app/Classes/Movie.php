@@ -189,33 +189,8 @@ class Movie {
 	}
 
 	public function getPosterImageColor() {
-		try {
-
-			$color = \Katu\Config::get('venues', $this->venue, 'color');
-
-
-
-			return new \MischiefCollective\ColorJizz\Formats\Hex(hexdec($color));
-
-		} catch (\Exception $e) {
-
-			try {
-
-				return \Katu\Utils\Cache::get(function($posterUrl) {
-
-					$image = new \Intervention\Image\Image($posterUrl);
-					$image->resize(1, 1);
-					$color = $image->pickColor(0, 0);
-
-					return new \MischiefCollective\ColorJizz\Formats\RGB($color['r'], $color['g'], $color['b']);
-
-				}, null, $this->getPosterUrl());
-
-			} catch (\Exception $e) {
-				return new \MischiefCollective\ColorJizz\Formats\RGB(rand(0, 255), rand(0, 255), rand(0, 255));
-			}
-
-		}
+		var_dump($this);
+		//return \Katu\Config::get('venues', $this->venue, 'color');
 	}
 
 }
