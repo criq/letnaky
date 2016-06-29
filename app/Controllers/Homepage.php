@@ -19,6 +19,7 @@ class Homepage extends \Katu\Controller {
 
 			try {
 				$url = \Katu\Types\TUrl::make('http://api.openweathermap.org/data/2.5/forecast', [
+					'APPID' => '63e4953385780c78c67879c7da52482c',
 					'q'     => 'Brno',
 					'mode'  => 'json',
 					'units' => 'metric',
@@ -41,7 +42,7 @@ class Homepage extends \Katu\Controller {
 
 			return \Katu\View::render("Homepage/index", $data);
 
-		});
+		}, 3600 * 3);
 
 		$app->response->setStatus(200);
 		$app->response->headers->set('Content-Type', 'text/html; charset=UTF-8');
