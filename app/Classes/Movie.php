@@ -63,7 +63,20 @@ class Movie {
 		$csfdUrl = $this->getCsfdUrl();
 		if ($csfdUrl) {
 
-			$src = \Katu\Utils\Cache::getUrl($csfdUrl);
+			$src = \Katu\Utils\Cache::get(['csfd', 'movie', $this->title], function($movie) {
+
+				$curl = new \Curl\Curl;
+				$curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
+
+				$res = $curl->get($this->getCsfdUrl());
+				if ($curl->responseHeaders['content-encoding'] == 'gzip') {
+					$res = gzdecode($res);
+				}
+
+				return $res;
+
+			}, 86400, $this);
+
 			$dom = \Katu\Utils\DOM::crawlHtml($src);
 
 			$res = [];
