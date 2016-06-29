@@ -64,7 +64,7 @@ class Homepage extends \Katu\Controller {
 		$lines[] = 'DTSTART;TZID=Europe/Prague:' . $movie->dateTime->format('Ymd') . 'T' . $movie->dateTime->format('His');
 		$lines[] = 'DTEND;TZID=Europe/Prague:' . $movie->dateTime->modify('+ ' . $movie->getRuntimeInMinutes() . ' minutes')->format('Ymd') . 'T' . $movie->dateTime->format('His');
 		$lines[] = 'SUMMARY:' . $movie->title;
-		$lines[] = 'DESCRIPTION:' . $movie->getPlot();
+		//$lines[] = 'DESCRIPTION:' . $movie->getPlot();
 		$lines[] = 'LOCATION:' . $movie->venue;
 		$lines[] = 'URL;VALUE=URI:' . $movie->venueUrl;
 		$lines[] = 'END:VEVENT';

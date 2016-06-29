@@ -142,7 +142,7 @@ class Movie {
 	}
 
 	public function getRuntimeInMinutes() {
-		if (preg_match('#^([0-9]+) min$#', $this->getRuntime(), $match)) {
+		if (preg_match('#^([0-9]+)\s?(min)?$#', $this->getRuntime(), $match)) {
 			return (int) $match[1];
 		}
 
