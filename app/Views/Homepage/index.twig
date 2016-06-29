@@ -38,7 +38,7 @@
 								</tr>
 							{% endif %}
 							{% set date = movie.dateTime.getDbDateFormat %}
-							{% set color = movie.getPosterImageColor.toHex %}
+							{% set color = movie.getColor %}
 							{% set isTodayOrTomorrow = movie.dateTime.isToday or movie.dateTime.isTomorrow %}
 							{% if isTodayOrTomorrow and not bannerDate %}
 								{% set bannerDate = date %}

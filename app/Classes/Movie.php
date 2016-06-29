@@ -188,7 +188,7 @@ class Movie {
 		return $csfdUrl ?: $this->getEventUrl();
 	}
 
-	public function getPosterImageColor() {
+	public function getColor() {
 		return \Katu\Config::get('venues', $this->venue, 'color');
 	}
 
