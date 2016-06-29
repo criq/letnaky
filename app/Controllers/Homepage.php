@@ -7,73 +7,45 @@ class Homepage extends \Katu\Controller {
 	static function index() {
 		$app = \Katu\App::get();
 
-		static::$data['movies'] = (array) \App\Classes\Movie::getAll(86400);
+		$src = \Katu\Utils\Cache::get(function() use($app) {
 
-		static::$data['_page']['title'] = 'Letňáky v Brně';
+			$data['movies'] = (array) \App\Classes\Movie::getAll(86400);
 
-		static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
-			return $i->dateTime->isInFuture();
-		});
+			$data['_page']['title'] = 'Letňáky v Brně';
 
-		if ($app->router()->getCurrentRoute()->getName() == 'playlist.new') {
-
-			static::$data['playlist'] = 'new';
-
-			static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
-				return $i->getYear() >= 2014;
+			$data['movies'] = array_filter($data['movies'], function($i) {
+				return $i->dateTime->isInFuture();
 			});
-			static::$data['_page']['title'] = 'Novinky - ' . static::$data['_page']['title'];
-			static::$data['title'] = 'Novinky';
 
-		} elseif ($app->router()->getCurrentRoute()->getName() == 'playlist.old') {
+			try {
+				$url = \Katu\Types\TUrl::make('http://api.openweathermap.org/data/2.5/forecast', [
+					'q'     => 'Brno',
+					'mode'  => 'json',
+					'units' => 'metric',
+					'lang'  => 'en',
+				]);
+				$res = \Katu\Utils\Cache::getUrl($url, 1);
 
-			static::$data['playlist'] = 'old';
-
-			static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
-				return $i->getYear() && $i->getYear() <= 1959;
-			});
-			static::$data['_page']['title'] = 'Pro pamětníky - ' . static::$data['_page']['title'];
-			static::$data['title'] = 'Pro pamětníky';
-
-		} elseif ($app->router()->getCurrentRoute()->getName() == 'playlist.newWave') {
-
-			static::$data['playlist'] = 'newWave';
-
-			static::$data['movies'] = array_filter(static::$data['movies'], function($i) {
-				return
-				$i->getYear() && $i->getYear() >= 1960
-				&&
-				$i->getYear() && $i->getYear() <= 1970
-				;
-			});
-			static::$data['_page']['title'] = 'Česká nová vlna - ' . static::$data['_page']['title'];
-			static::$data['title'] = 'Česká nová vlna';
-
-		}
-
-		try {
-			$url = \Katu\Types\TUrl::make('http://api.openweathermap.org/data/2.5/forecast', [
-				'q'     => 'Brno',
-				'mode'  => 'json',
-				'units' => 'metric',
-				'lang'  => 'en',
-			]);
-			$res = \Katu\Utils\Cache::getUrl($url, 1);
-
-			static::$data['weather'] = [];
-			if (isset($res->list)) {
-				foreach ($res->list as $i) {
-					$dateTime = new \Katu\Utils\DateTime('@' . $i->dt);
-					if ($dateTime->format('Hi') == '2100') {
-						static::$data['weather'][$dateTime->format('Ymd')] = \App\Classes\Weather::createFromApi($i);
+				$data['weather'] = [];
+				if (isset($res->list)) {
+					foreach ($res->list as $i) {
+						$dateTime = new \Katu\Utils\DateTime('@' . $i->dt);
+						if ($dateTime->format('Hi') == '2100') {
+							$data['weather'][$dateTime->format('Ymd')] = \App\Classes\Weather::createFromApi($i);
+						}
 					}
 				}
+			} catch (\Exception $e) {
+
 			}
-		} catch (\Exception $e) {
 
-		}
+			return \Katu\View::render("Homepage/index", $data);
 
-		return static::render("Homepage/index");
+		});
+
+		$app->response->setStatus(200);
+		$app->response->headers->set('Content-Type', 'text/html; charset=UTF-8');
+		$app->response->setBody($src);
 	}
 
 	static function addToCalendar($movieHash) {
