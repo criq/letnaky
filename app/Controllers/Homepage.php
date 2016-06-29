@@ -7,7 +7,7 @@ class Homepage extends \Katu\Controller {
 	static function index() {
 		$app = \Katu\App::get();
 
-		$src = \Katu\Utils\Cache::get(function() use($app) {
+		$src = \Katu\Utils\Cache::get(['homepage', (new \Katu\Utils\DateTime)->format('Y-m-d')], function() use($app) {
 
 			$data['movies'] = (array) \App\Classes\Movie::getAll(86400);
 
