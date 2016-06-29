@@ -56,9 +56,7 @@
 								</style>
 
 								{% set url = movie.getUrl %}
-								{% set csfdUrl = movie.getCsfdUrl %}
-								{% set rating = movie.getRating %}
-								{% set runtime = movie.getRuntime %}
+								{% set info = movie.getCsfdInfo %}
 
 								{% if playlist %}
 									<td class="date hidden-xs">
@@ -88,11 +86,11 @@
 									</h3>
 								</td>
 								<td class="rating hidden-xs">
-									{% if rating %}
+									{% if info.rating %}
 										{% if csfdUrl %}
-											<a target="_blank" href="{{ csfdUrl }}">{{ rating|localPercent }}</a>
+											<a target="_blank" href="{{ csfdUrl }}">{{ info.rating|localPercent }}</a>
 										{% else %}
-											{{ rating|localPercent }}
+											{{ info.rating|localPercent }}
 										{% endif %}
 									{% endif %}
 								</td>
@@ -105,11 +103,11 @@
 									{% endif %}
 								</td>
 								<td class="year hidden-sm hidden-xs">
-									{{ movie.getYear }}
+									{{ info.year }}
 								</td>
 								<td class="runtime hidden-sm hidden-xs">
-									{% if runtime %}
-										{{ runtime }} min
+									{% if info.runtime %}
+										{{ info.runtime }} min
 									{% endif %}
 								</td>
 								<td class="calendar hidden-sm hidden-xs">
