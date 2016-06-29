@@ -60,54 +60,58 @@ class Movie {
 	}
 
 	public function getCsfdInfo() {
-		$csfdUrl = $this->getCsfdUrl();
-		if ($csfdUrl) {
+		return \Katu\Utils\Cache::get(['movie', 'csfdInfo', $this->hash], function($movie) {
 
-			$src = \Katu\Utils\Cache::get(['csfd', 'movie', $this->title], function($movie) {
+			$csfdUrl = $this->getCsfdUrl();
+			if ($csfdUrl) {
 
-				$curl = new \Curl\Curl;
-				$curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
+				$src = \Katu\Utils\Cache::get(['csfd', 'movie', $this->title], function($movie) {
 
-				$res = $curl->get($this->getCsfdUrl());
-				if ($curl->responseHeaders['content-encoding'] == 'gzip') {
-					$res = gzdecode($res);
+					$curl = new \Curl\Curl;
+					$curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
+
+					$res = $curl->get($this->getCsfdUrl());
+					if ($curl->responseHeaders['content-encoding'] == 'gzip') {
+						$res = gzdecode($res);
+					}
+
+					return $res;
+
+				}, 86400 * 7, $this);
+
+				$dom = \Katu\Utils\DOM::crawlHtml($src);
+
+				$res = [];
+
+				try {
+					if (preg_match('#^([0-9]+)%$#', $dom->filter('#rating .average')->html(), $match)) {
+						$res['rating'] = $match[1] * .01;
+					}
+				} catch (\Exception $e) {
+
+				}
+
+				try {
+					if (preg_match('#"year":([0-9]{4})#', $src, $match)) {
+						$res['year'] = $match[1];
+					}
+				} catch (\Exception $e) {
+
+				}
+
+				try {
+					if (preg_match('#([0-9]+) min#', $src, $match)) {
+						$res['runtime'] = $match[1];
+					}
+				} catch (\Exception $e) {
+
 				}
 
 				return $res;
 
-			}, 86400, $this);
-
-			$dom = \Katu\Utils\DOM::crawlHtml($src);
-
-			$res = [];
-
-			try {
-				if (preg_match('#^([0-9]+)%$#', $dom->filter('#rating .average')->html(), $match)) {
-					$res['rating'] = $match[1] * .01;
-				}
-			} catch (\Exception $e) {
-
 			}
 
-			try {
-				if (preg_match('#"year":([0-9]{4})#', $src, $match)) {
-					$res['year'] = $match[1];
-				}
-			} catch (\Exception $e) {
-
-			}
-
-			try {
-				if (preg_match('#([0-9]+) min#', $src, $match)) {
-					$res['runtime'] = $match[1];
-				}
-			} catch (\Exception $e) {
-
-			}
-
-			return $res;
-
-		}
+		}, 86400, $this);
 	}
 
 	public function getRating() {
@@ -148,6 +152,10 @@ class Movie {
 	public function getCsfdUrl() {
 		if ($this->csfdId < 0) {
 			return false;
+		}
+
+		if ($this->csfdId) {
+			return 'http://www.csfd.cz/film/' . $this->csfdId;
 		}
 
 		try {
