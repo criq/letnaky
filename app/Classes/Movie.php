@@ -189,8 +189,7 @@ class Movie {
 	}
 
 	public function getPosterImageColor() {
-		var_dump($this);
-		//return \Katu\Config::get('venues', $this->venue, 'color');
+		return \Katu\Config::get('venues', $this->venue, 'color');
 	}
 
 }
