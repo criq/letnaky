@@ -43,6 +43,11 @@ Letní kino Tuřany:
 	color: '023770'
 	in: v Tuřanech
 Židenické letní kino na Dělňáku:
-  short: Židenice
+	short: Židenice
 	color: '023770'
 	in: v Židenicích
+Palouk stříbrného plátna:
+	short: Lužánky
+	color: '023770'
+	in: v Lužánkách
+	facebookId: 1019077088168930
