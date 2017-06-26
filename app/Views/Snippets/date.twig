@@ -5,7 +5,7 @@
 		<strong>zítra</strong>
 	{% else %}
 		<span{% if playlist %} class="hidden-xs"{% endif %}>
-			{{ _config.weekdays[date.format('N')] }}
+			{{ _config.weekdays[date.format('N') - 1] }}
 		</span>
 		{{ date.format('j. n.') }}
 	{% endif %}
