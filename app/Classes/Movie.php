@@ -14,6 +14,8 @@ class Movie {
 				return static::createFromTable($e);
 			}), 2);
 
+			$movies = array_filter($movies);
+
 			$movies = array_filter($movies, function($i) {
 				return $i->venueUrl && $i->dateTime;
 			});
@@ -38,25 +40,29 @@ class Movie {
 	}
 
 	static function createFromTable($dom) {
-		$object = new static;
+		try {
+			$object = new static;
 
-		$object->venue    = strip_tags($dom->filter('td')->eq(0)->html());
-		$object->venueUrl = strip_tags($dom->filter('td')->eq(1)->html());
-		$object->dateTime = \Katu\Utils\DateTime::createFromFormat('j.n.Y H:i:s', $dom->filter('td')->eq(2)->html() . ' ' . $dom->filter('td')->eq(3)->html());
-		if (!$object->dateTime) {
-			$object->dateTime = \Katu\Utils\DateTime::createFromFormat('j.n.Y H:i', $dom->filter('td')->eq(2)->html() . ' ' . $dom->filter('td')->eq(3)->html());
+			$object->venue    = strip_tags($dom->filter('td')->eq(0)->html());
+			$object->venueUrl = strip_tags($dom->filter('td')->eq(1)->html());
+			$object->dateTime = \Katu\Utils\DateTime::createFromFormat('j.n.Y H:i:s', $dom->filter('td')->eq(2)->html() . ' ' . $dom->filter('td')->eq(3)->html());
+			if (!$object->dateTime) {
+				$object->dateTime = \Katu\Utils\DateTime::createFromFormat('j.n.Y H:i', $dom->filter('td')->eq(2)->html() . ' ' . $dom->filter('td')->eq(3)->html());
+			}
+			$object->title    = strip_tags($dom->filter('td')->eq(4)->html());
+			$object->entry    = (int) strtr(substr($dom->filter('td')->eq(5)->html(), 0, -3), ',', '.');
+			$object->csfdId   = (int) $dom->filter('td')->eq(6)->html();
+			$object->eventUrl = strip_tags($dom->filter('td')->eq(7)->html());
+			$object->hash     = sha1(\Katu\Utils\JSON::encodeStandard([
+				$object->venue,
+				$object->dateTime,
+				$object->title,
+			]));
+
+			return $object;
+		} catch (\Exception $e) {
+			return false;
 		}
-		$object->title    = strip_tags($dom->filter('td')->eq(4)->html());
-		$object->entry    = (int) strtr(substr($dom->filter('td')->eq(5)->html(), 0, -3), ',', '.');
-		$object->csfdId   = (int) $dom->filter('td')->eq(6)->html();
-		$object->eventUrl = strip_tags($dom->filter('td')->eq(7)->html());
-		$object->hash     = sha1(\Katu\Utils\JSON::encodeStandard([
-			$object->venue,
-			$object->dateTime,
-			$object->title,
-		]));
-
-		return $object;
 	}
 
 	public function getCsfdInfo() {
