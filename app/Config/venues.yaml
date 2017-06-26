@@ -1,53 +1,53 @@
 AHOY:
-	short: AHOY
-	color: '32AB22'
-	in: v AHOY na Priglu
-	facebookId: 1586476778230795
+  short: AHOY
+  color: '32AB22'
+  in: v AHOY na Priglu
+  facebookId: 1586476778230795
 Špilberk:
-	short: Špilberk
-	color: '227517'
-	in: na Špilberku
-	facebookId: 729646350426936
+  short: Špilberk
+  color: '227517'
+  in: na Špilberku
+  facebookId: 729646350426936
 Scalní letňák:
-	short: Scala
-	color: 'F2C230'
-	in: ve Scalním letňáku
-	facebookId: 438580109498109
+  short: Scala
+  color: 'F2C230'
+  in: ve Scalním letňáku
+  facebookId: 438580109498109
 Restaurace Pavillon:
-	short: Pavillon
-	color: '023770'
-	in: v Pavillonu
-	facebookId: 320571951363976
+  short: Pavillon
+  color: '023770'
+  in: v Pavillonu
+  facebookId: 320571951363976
 Městské divadlo:
-	short: MdB
-	color: '0576F2'
-	in: na dvoře Městského divadla
-	facebookId: 464222550388191
+  short: MdB
+  color: '0576F2'
+  in: na dvoře Městského divadla
+  facebookId: 464222550388191
 Radnice Brna-střed:
-	short: Střed
-	color: 'F23E2E'
-	in: na nádvoří radnice Brna-střed
-	facebookId: 456275811132472
+  short: Střed
+  color: 'F23E2E'
+  in: na nádvoří radnice Brna-střed
+  facebookId: 456275811132472
 Nádvoří staré radnice:
-	short: Nádvoří
-	color: 'F28630'
-	in: na nádvoří Staré radnice
-	facebookId: 719705371486250
+  short: Nádvoří
+  color: 'F28630'
+  in: na nádvoří Staré radnice
+  facebookId: 719705371486250
 Letní kino Amfiteátr Čertova rokle:
-	short: Lesná
-	color: '023770'
-	in: v Čertově rokli
-	facebookId: 1108493809193988
+  short: Lesná
+  color: '023770'
+  in: v Čertově rokli
+  facebookId: 1108493809193988
 Letní kino Tuřany:
-	short: Tuřany
-	color: '023770'
-	in: v Tuřanech
+  short: Tuřany
+  color: '023770'
+  in: v Tuřanech
 Židenické letní kino na Dělňáku:
-	short: Židenice
-	color: '023770'
-	in: v Židenicích
+  short: Židenice
+  color: '023770'
+  in: v Židenicích
 Palouk stříbrného plátna:
-	short: Lužánky
-	color: '023770'
-	in: v Lužánkách
-	facebookId: 1019077088168930
+  short: Lužánky
+  color: '023770'
+  in: v Lužánkách
+  facebookId: 1019077088168930
