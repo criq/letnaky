@@ -130,7 +130,7 @@ class Homepage extends \Katu\Controller {
 			}
 
 		} catch (\Facebook\FacebookPermissionException $e) {
-			var_dump($e);
+			//var_dump($e);
 		}
 
 	}
