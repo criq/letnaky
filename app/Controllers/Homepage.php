@@ -145,6 +145,7 @@ class Homepage extends \Katu\Controller {
 		$files = [
 			new \Katu\Utils\File(TMP_PATH, 'cache', 'https', 'com', 'google', 'docs'),
 			new \Katu\Utils\File(TMP_PATH, 'cache', 'h', 'homepage'),
+			new \Katu\Utils\File(TMP_PATH, 'cache', 'm'),
 		];
 
 		foreach ($files as $file) {
