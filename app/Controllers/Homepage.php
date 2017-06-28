@@ -141,4 +141,15 @@ class Homepage extends \Katu\Controller {
 		var_dump(static::$data['movies']);
 	}
 
+	static function clearCache() {
+		$files = [
+			new \Katu\Utils\File(TMP_PATH, 'cache', 'https', 'com', 'google', 'docs'),
+			new \Katu\Utils\File(TMP_PATH, 'cache', 'h', 'homepage'),
+		];
+
+		foreach ($files as $file) {
+			$file->delete();
+		}
+	}
+
 }
