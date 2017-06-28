@@ -149,7 +149,9 @@ class Homepage extends \Katu\Controller {
 		];
 
 		foreach ($files as $file) {
-			$file->delete();
+			if ($file->exists()) {
+				$file->delete();
+			}
 		}
 	}
 
