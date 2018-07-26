@@ -7,9 +7,9 @@ class Homepage extends \Katu\Controller {
 	static function index() {
 		$app = \Katu\App::get();
 
-		$src = \Katu\Utils\Cache::get(['homepage', (new \Katu\Utils\DateTime)->format('Y-m-d')], function() use($app) {
+		$src = \Katu\Cache::get(['homepage', (new \Katu\Utils\DateTime)->format('Y-m-d')], '3 hours', function() use($app) {
 
-			$data['movies'] = (array) \App\Classes\Movie::getAll(86400);
+			$data['movies'] = (array) \App\Classes\Movie::getAll('1 day');
 
 			$data['_page']['title'] = 'Letňáky v Brně';
 
@@ -25,7 +25,7 @@ class Homepage extends \Katu\Controller {
 					'units' => 'metric',
 					'lang'  => 'en',
 				]);
-				$res = \Katu\Utils\Cache::getUrl($url, 1);
+				$res = \Katu\Cache\Url::get($url, '1 hour');
 
 				$data['weather'] = [];
 				if (isset($res->list)) {
@@ -42,7 +42,7 @@ class Homepage extends \Katu\Controller {
 
 			return \Katu\View::render("Homepage/index", $data);
 
-		}, 3600 * 3);
+		});
 
 		$app->response->setStatus(200);
 		$app->response->headers->set('Content-Type', 'text/html; charset=UTF-8');

@@ -5,10 +5,10 @@ namespace App\Classes;
 class Movie {
 
 	static function getAll($timeout = null) {
-		return \Katu\Utils\Cache::get('movies', function() use($timeout) {
+		return \Katu\Cache::get('movies', $timeout, function() use($timeout) {
 
-			$res = \Katu\Utils\Cache::getUrl('https://docs.google.com/spreadsheets/d/1_H6y1uS-yGkZGfdMtS2kFkCw5Fgml35PDJcK0ZcWr_0/pubhtml', $timeout);
-			$dom = \Katu\Utils\DOM::crawlHtml($res);
+			$src = \Katu\Cache\Url::get('https://docs.google.com/spreadsheets/d/1_H6y1uS-yGkZGfdMtS2kFkCw5Fgml35PDJcK0ZcWr_0/pubhtml', $timeout);
+			$dom = \Katu\Utils\DOM::crawlHtml($src);
 
 			$movies = array_slice($dom->filter('table tbody tr')->each(function($e) {
 				return static::createFromTable($e);
@@ -26,7 +26,7 @@ class Movie {
 
 			return $movies;
 
-		}, $timeout);
+		});
 	}
 
 	static function getByHash($hash) {
@@ -66,12 +66,12 @@ class Movie {
 	}
 
 	public function getCsfdInfo() {
-		return \Katu\Utils\Cache::get(['movie', 'csfdInfo', $this->hash], function($movie) {
+		return \Katu\Cache::get(['movie', 'csfdInfo', $this->hash], '1 week', function($movie) {
 
 			$csfdUrl = $this->getCsfdUrl();
 			if ($csfdUrl) {
 
-				$src = \Katu\Utils\Cache::get(['csfd', 'movie', $this->title], function($movie) {
+				$src = \Katu\Cache::get(['csfd', 'movie', $this->title], '1 week', function($movie) {
 
 					$curl = new \Curl\Curl;
 					$curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
@@ -83,7 +83,7 @@ class Movie {
 
 					return $res;
 
-				}, 86400 * 7, $this);
+				}, $this);
 
 				$dom = \Katu\Utils\DOM::crawlHtml($src);
 
@@ -117,7 +117,7 @@ class Movie {
 
 			}
 
-		}, 86400, $this);
+		}, $this);
 	}
 
 	public function getRating() {
@@ -166,9 +166,10 @@ class Movie {
 
 		try {
 
-			$src = \Katu\Utils\Cache::getUrl(\Katu\Types\TUrl::make('http://www.csfd.cz/hledat/', [
+			$src = \Katu\Cache\Url::get(\Katu\Types\TUrl::make('http://www.csfd.cz/hledat/', [
 				'q' => $this->title,
 			]));
+
 			$dom = \Katu\Utils\DOM::crawlHtml($src);
 
 			try {
